@@ -43,9 +43,8 @@ mcp = FastMCP.from_openapi(
     tags={"insurance", "api", "management"},
 )
 
-# Export the ASGI app for Vercel
-# FastMCP provides HTTP app for modern deployment
-app = mcp.http_app
+# Export the WSGI app for Vercel
+app = mcp.streamable_http_app
 
 # Main entry point for local development
 if __name__ == "__main__":
