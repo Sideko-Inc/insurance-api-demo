@@ -1,0 +1,30 @@
+[
+  {
+    "id": "RISK-001",
+    "policyId": "POL-001",
+    "riskScore": 65,
+    "riskLevel": "medium",
+    "factors": ["Age: 35", "Location: Urban", "Claims History: 1 claim", "Vehicle Age: 3 years"],
+    "assessmentDate": "2024-01-01T00:00:00Z",
+    "assessedBy": "system",
+    "notes": "Standard risk profile for urban driver",
+    "createdAt": "2024-01-01T00:00:00Z"
+  },
+  {
+    "id": "RISK-002",
+    "policyId": "POL-002",
+    "riskScore": 45,
+    "riskLevel": "low",
+    "factors": [
+      "Age: 42",
+      "Location: Suburban",
+      "Claims History: 0 claims",
+      "Property Age: 5 years",
+      "Security System: Yes"
+    ],
+    "assessmentDate": "2024-02-01T00:00:00Z",
+    "assessedBy": "system",
+    "notes": "Low risk profile with good security measures",
+    "createdAt": "2024-02-01T00:00:00Z"
+  }
+]

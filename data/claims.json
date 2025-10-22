@@ -1,0 +1,29 @@
+[
+  {
+    "id": "CLM-001",
+    "claimNumber": "CLM-2024-001234",
+    "policyId": "POL-001",
+    "claimType": "accident",
+    "description": "Vehicle collision on highway",
+    "claimAmount": 5000,
+    "status": "pending",
+    "filedDate": "2024-06-15T10:30:00Z",
+    "notes": "Awaiting police report",
+    "createdAt": "2024-06-15T10:30:00Z",
+    "updatedAt": "2024-06-15T10:30:00Z"
+  },
+  {
+    "id": "CLM-002",
+    "claimNumber": "CLM-2024-001235",
+    "policyId": "POL-002",
+    "claimType": "damage",
+    "description": "Water damage from burst pipe",
+    "claimAmount": 15000,
+    "status": "approved",
+    "filedDate": "2024-06-10T09:00:00Z",
+    "processedDate": "2024-06-18T14:00:00Z",
+    "notes": "Approved for full amount",
+    "createdAt": "2024-06-10T09:00:00Z",
+    "updatedAt": "2024-06-18T14:00:00Z"
+  }
+]

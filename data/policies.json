@@ -1,0 +1,30 @@
+[
+  {
+    "id": "POL-001",
+    "policyNumber": "INS-2024-001234",
+    "policyType": "auto",
+    "holderName": "John Doe",
+    "holderEmail": "john.doe@example.com",
+    "premium": 1200.5,
+    "coverageAmount": 50000,
+    "startDate": "2024-01-01T00:00:00Z",
+    "endDate": "2025-01-01T00:00:00Z",
+    "status": "active",
+    "createdAt": "2024-01-01T00:00:00Z",
+    "updatedAt": "2024-01-01T00:00:00Z"
+  },
+  {
+    "id": "POL-002",
+    "policyNumber": "INS-2024-001235",
+    "policyType": "home",
+    "holderName": "Jane Smith",
+    "holderEmail": "jane.smith@example.com",
+    "premium": 2400.0,
+    "coverageAmount": 250000,
+    "startDate": "2024-02-01T00:00:00Z",
+    "endDate": "2025-02-01T00:00:00Z",
+    "status": "active",
+    "createdAt": "2024-02-01T00:00:00Z",
+    "updatedAt": "2024-02-01T00:00:00Z"
+  }
+]
