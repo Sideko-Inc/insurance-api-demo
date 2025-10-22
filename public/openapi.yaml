@@ -27,10 +27,6 @@ security:
   - ApiKeyAuth: []
 
 tags:
-  - name: Authentication
-    description: |
-      API key validation and authentication endpoints. All API requests require a valid API key
-      passed in the `x-api-key` header.
   - name: Policies
     description: |
       Insurance policy management endpoints. Policies represent insurance contracts with details
@@ -48,53 +44,6 @@ tags:
       and generate risk scores from 0-100. Essential for underwriting and premium calculations.
 
 paths:
-  /api/auth/validate:
-    post:
-      tags:
-        - Authentication
-      summary: Validate API Key
-      description: |
-        Validates the provided API key to ensure it is authorized to access the API.
-        This endpoint can be used to verify credentials before making subsequent API calls.
-
-        **Authentication**: Unlike other endpoints, this endpoint accepts the API key in the request
-        body rather than the header, specifically for validation purposes.
-
-        **Use Cases**:
-        - Initial authentication verification
-        - Testing API key validity
-        - Client-side credential validation before operations
-      operationId: validateApiKey
-      security: []
-      requestBody:
-        required: true
-        description: API key to validate
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ApiKeyValidationRequest'
-            examples:
-              validKey:
-                summary: Valid API key
-                value:
-                  apiKey: demo-key-12345
-      responses:
-        '200':
-          description: |
-            API key is valid and authorized for use. The response confirms successful validation.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiKeyValidationResponse'
-              examples:
-                success:
-                  summary: Successful validation
-                  value:
-                    valid: true
-                    message: API key is valid
-        '401':
-          $ref: '#/components/responses/UnauthorizedError'
-
   /api/policies:
     get:
       tags:
@@ -141,7 +90,7 @@ paths:
                       status: active
                       createdAt: '2024-01-01T00:00:00Z'
                       updatedAt: '2024-01-01T00:00:00Z'
-                    - id: POL-1729627800001-def456
+                    - id: POL-002
                       policyNumber: INS-2024-001235
                       policyType: home
                       holderName: Jane Smith
@@ -493,7 +442,7 @@ paths:
                 summary: Auto accident claim
                 value:
                   claimNumber: CLM-2024-001234
-                  policyId: POL-1729627800000-abc123
+                  policyId: POL-001
                   claimType: accident
                   description: Vehicle collision on highway resulting in front-end damage
                   claimAmount: 5000
@@ -697,26 +646,6 @@ paths:
         - Automated approval for small claims
         - Manager approval after investigation
       operationId: approveClaim
-      requestBody:
-        required: false
-        description: Optional approval notes or additional information
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                notes:
-                  type: string
-                  description: Notes explaining the approval decision or any conditions
-                  example: Claim approved after verification of police report and damage assessment
-            examples:
-              withNotes:
-                summary: Approval with notes
-                value:
-                  notes: Claim approved after verification of police report and damage assessment
-              withoutNotes:
-                summary: Simple approval
-                value: {}
       responses:
         '200':
           description: |
@@ -789,25 +718,6 @@ paths:
         - Claim filed after coverage period
         - Fraudulent claim suspected
       operationId: rejectClaim
-      requestBody:
-        required: true
-        description: Rejection reason and notes (strongly recommended)
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - notes
-              properties:
-                notes:
-                  type: string
-                  description: Detailed explanation of why the claim is being rejected
-                  example: Claim rejected - damage occurred before policy start date. Not covered under current policy terms.
-            examples:
-              withReason:
-                summary: Rejection with detailed reason
-                value:
-                  notes: Claim rejected - damage occurred before policy start date. Not covered under current policy terms.
       responses:
         '200':
           description: |
@@ -888,7 +798,7 @@ paths:
               mediumRisk:
                 summary: Medium risk assessment
                 value:
-                  policyId: POL-1729627800000-abc123
+                  policyId: POL-001
                   riskScore: 45
                   riskLevel: medium
                   factors:
@@ -903,7 +813,7 @@ paths:
               highRisk:
                 summary: High risk assessment
                 value:
-                  policyId: POL-1729627800001-def456
+                  policyId: POL-002
                   riskScore: 68
                   riskLevel: high
                   factors:
@@ -959,7 +869,7 @@ paths:
           This should match the policyId field in the risk assessment records.
         schema:
           type: string
-          example: POL-1729627800000-abc123
+          example: POL-001
 
     get:
       tags:
@@ -1060,7 +970,7 @@ components:
         is created and follows the format: POL-{timestamp}-{random}.
       schema:
         type: string
-        example: POL-1729627800000-abc123
+        example: POL-001
 
     ClaimId:
       name: id
@@ -1071,7 +981,7 @@ components:
         is created and follows the format: CLM-{timestamp}-{random}.
       schema:
         type: string
-        example: CLM-1729627800000-xyz789
+        example: CLM-001
 
   responses:
     UnauthorizedError:
@@ -1210,8 +1120,7 @@ components:
         premium:
           type: number
           format: double
-          minimum: 0
-          exclusiveMinimum: true
+          exclusiveMinimum: 0
           description: |
             The insurance premium amount charged for this policy coverage. Typically represents
             the annual premium cost. Must be a positive number. Currency is implied by system
@@ -1220,8 +1129,7 @@ components:
         coverageAmount:
           type: number
           format: double
-          minimum: 0
-          exclusiveMinimum: true
+          exclusiveMinimum: 0
           description: |
             The maximum coverage or benefit amount provided by this policy. This represents the
             highest amount that can be paid out for covered claims or losses. Must be a positive
@@ -1291,7 +1199,11 @@ components:
           example: INS-2024-001234
         policyType:
           type: string
-          enum: [auto, home, life, health]
+          enum:
+            - auto
+            - home
+            - life
+            - health
           description: Type of insurance coverage
           example: auto
         holderName:
@@ -1306,15 +1218,13 @@ components:
         premium:
           type: number
           format: double
-          minimum: 0
-          exclusiveMinimum: true
+          exclusiveMinimum: 0
           description: Annual premium amount (must be positive)
           example: 1200.50
         coverageAmount:
           type: number
           format: double
-          minimum: 0
-          exclusiveMinimum: true
+          exclusiveMinimum: 0
           description: Maximum coverage amount (must be positive)
           example: 50000
         startDate:
@@ -1329,7 +1239,10 @@ components:
           example: '2025-01-01T00:00:00Z'
         status:
           type: string
-          enum: [active, expired, cancelled]
+          enum: 
+            - active
+            - expired
+            - cancelled
           description: Initial policy status (typically 'active' for new policies)
           example: active
 
@@ -1345,7 +1258,11 @@ components:
           example: INS-2024-001235
         policyType:
           type: string
-          enum: [auto, home, life, health]
+          enum: 
+            - auto
+            - home
+            - life
+            - health
           description: Change the policy type
           example: home
         holderName:
@@ -1360,15 +1277,13 @@ components:
         premium:
           type: number
           format: double
-          minimum: 0
-          exclusiveMinimum: true
+          exclusiveMinimum: 0
           description: Adjust premium amount
           example: 1350.00
         coverageAmount:
           type: number
           format: double
-          minimum: 0
-          exclusiveMinimum: true
+          exclusiveMinimum: 0
           description: Modify coverage amount
           example: 75000
         startDate:
@@ -1383,7 +1298,10 @@ components:
           example: '2025-02-01T00:00:00Z'
         status:
           type: string
-          enum: [active, expired, cancelled]
+          enum: 
+            - active
+            - expired
+            - cancelled
           description: Change policy status
           example: cancelled
         updatedAt:
@@ -1453,8 +1371,7 @@ components:
         claimAmount:
           type: number
           format: double
-          minimum: 0
-          exclusiveMinimum: true
+          exclusiveMinimum: 0
           description: |
             The monetary amount being claimed for compensation. Must be a positive number.
             This may be adjusted during the claims process based on assessment and policy limits.
@@ -1481,17 +1398,15 @@ components:
             Important for determining if the claim is within policy coverage period.
           example: '2024-06-15T10:30:00Z'
         processedDate:
-          type: string
+          type: ['string', 'null']
           format: date-time
-          nullable: true
           description: |
             Date and time when the claim was approved or rejected (final decision made).
             Null for pending or processing claims. Auto-set by approval/rejection workflow.
             ISO 8601 format (UTC).
           example: '2024-06-20T14:00:00Z'
         notes:
-          type: string
-          nullable: true
+          type: ['string', 'null']
           description: |
             Additional notes, comments, or documentation about the claim. May include adjuster
             notes, missing documentation requirements, approval reasons, or rejection explanations.
@@ -1532,10 +1447,15 @@ components:
         policyId:
           type: string
           description: ID of the policy under which the claim is filed
-          example: POL-1729627800000-abc123
+          example: POL-001
         claimType:
           type: string
-          enum: [accident, theft, damage, medical, other]
+          enum: 
+            - accident
+            - theft
+            - damage
+            - medical
+            - other
           description: Category of the claim
           example: accident
         description:
@@ -1545,13 +1465,16 @@ components:
         claimAmount:
           type: number
           format: double
-          minimum: 0
-          exclusiveMinimum: true
+          exclusiveMinimum: 0
           description: Amount being claimed (must be positive)
           example: 5000
         status:
           type: string
-          enum: [pending, approved, rejected, processing]
+          enum: 
+            - pending
+            - approved
+            - rejected
+            - processing
           description: Initial claim status (typically 'pending' for new claims)
           example: pending
         filedDate:
@@ -1560,8 +1483,7 @@ components:
           description: Date when the claim was filed (ISO 8601)
           example: '2024-06-15T10:30:00Z'
         notes:
-          type: string
-          nullable: true
+          type: ['string', 'null']
           description: Optional initial notes or comments
           example: Awaiting police report
 
@@ -1574,10 +1496,15 @@ components:
         policyId:
           type: string
           description: Update the associated policy ID
-          example: POL-1729627800001-def456
+          example: POL-002
         claimType:
           type: string
-          enum: [accident, theft, damage, medical, other]
+          enum: 
+            - accident
+            - theft
+            - damage
+            - medical
+            - other
           description: Change the claim type
           example: theft
         description:
@@ -1587,13 +1514,16 @@ components:
         claimAmount:
           type: number
           format: double
-          minimum: 0
-          exclusiveMinimum: true
+          exclusiveMinimum: 0
           description: Adjust the claim amount
           example: 5500
         status:
           type: string
-          enum: [pending, approved, rejected, processing]
+          enum: 
+            - pending
+            - approved
+            - rejected
+            - processing
           description: Change claim status (consider using workflow endpoints)
           example: processing
         filedDate:
@@ -1602,14 +1532,12 @@ components:
           description: Modify the filed date if needed
           example: '2024-06-15T10:30:00Z'
         processedDate:
-          type: string
+          type: ['string', 'null']
           format: date-time
-          nullable: true
           description: Set the processing date (typically via workflow endpoints)
           example: '2024-06-20T14:00:00Z'
         notes:
-          type: string
-          nullable: true
+          type: ['string', 'null']
           description: Add or update claim notes
           example: Police report received. Proceeding with assessment.
         updatedAt:
@@ -1699,8 +1627,7 @@ components:
             assessments, or a username/ID for manual underwriter assessments.
           example: system
         notes:
-          type: string
-          nullable: true
+          type: ['string', 'null']
           description: |
             Additional notes or comments about the risk assessment. May include underwriter
             observations, recommendations, or explanations for unusual risk factors.
@@ -1729,7 +1656,7 @@ components:
         policyId:
           type: string
           description: ID of the policy being assessed
-          example: POL-1729627800000-abc123
+          example: POL-001
         riskScore:
           type: number
           format: double
@@ -1739,7 +1666,11 @@ components:
           example: 45
         riskLevel:
           type: string
-          enum: [low, medium, high, critical]
+          enum: 
+            - low
+            - medium
+            - high
+            - critical
           description: Categorical risk level
           example: medium
         factors:
@@ -1761,8 +1692,7 @@ components:
           description: Who performed the assessment ('system' or username)
           example: system
         notes:
-          type: string
-          nullable: true
+          type: ['string', 'null']
           description: Optional assessment notes or comments
           example: Standard risk profile for urban driver
 
@@ -1781,8 +1711,7 @@ components:
             'Policy not found', 'Internal server error'.
           example: Invalid input
         message:
-          type: string
-          nullable: true
+          type: ['string', 'null']
           description: |
             Detailed error message explaining what went wrong and potentially how to fix it.
             May include validation errors, missing fields, or specific failure reasons.
@@ -1802,34 +1731,7 @@ components:
             Success message describing the completed operation. Should be clear and user-friendly.
           example: Operation completed successfully
         data:
-          nullable: true
           description: |
             Optional additional data returned with the success response. Can be any type
             depending on the operation.
 
-    ApiKeyValidationRequest:
-      type: object
-      description: Request body for API key validation
-      required:
-        - apiKey
-      properties:
-        apiKey:
-          type: string
-          description: The API key to validate
-          example: demo-key-12345
-
-    ApiKeyValidationResponse:
-      type: object
-      description: Response for API key validation
-      required:
-        - valid
-        - message
-      properties:
-        valid:
-          type: boolean
-          description: Whether the API key is valid
-          example: true
-        message:
-          type: string
-          description: Validation result message
-          example: API key is valid
