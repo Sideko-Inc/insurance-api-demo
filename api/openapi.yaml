@@ -1,0 +1,1737 @@
+openapi: 3.1.0
+info:
+  title: Insurance Management API
+  version: 1.0.0
+  description: |
+    A comprehensive REST API for managing insurance policies, claims, and risk assessments.
+
+    This API provides a complete suite of endpoints for insurance operations including:
+    - Policy lifecycle management (create, read, update, delete)
+    - Claims processing and approval workflows
+    - Risk assessment calculations and retrieval
+    - API key authentication for secure access
+
+    All endpoints require authentication via API key. The API follows RESTful conventions and returns
+    JSON responses with appropriate HTTP status codes.
+  contact:
+    name: API Support
+    email: team@sideko.dot.dev
+
+servers:
+  - url: http://localhost:3000
+    description: Local development server
+  # - url: https://api.insurance-demo.com
+  #   description: Production server
+
+security:
+  - ApiKeyAuth: []
+
+tags:
+  - name: Policies
+    description: |
+      Insurance policy management endpoints. Policies represent insurance contracts with details
+      about coverage, premiums, policy holders, and validity periods. Supports full CRUD operations
+      for managing the policy lifecycle from creation to cancellation.
+  - name: Claims
+    description: |
+      Insurance claim management and processing endpoints. Claims are filed against existing policies
+      and can be created, updated, approved, or rejected. Includes workflow actions for claim approval
+      and rejection with automatic status updates and processing timestamps.
+  - name: Risk Assessment
+    description: |
+      Risk evaluation endpoints for calculating and retrieving risk scores for insurance policies.
+      Risk assessments analyze various factors to determine risk levels (low, medium, high, critical)
+      and generate risk scores from 0-100. Essential for underwriting and premium calculations.
+
+paths:
+  /api/policies:
+    get:
+      tags:
+        - Policies
+      summary: List All Policies
+      description: |
+        Retrieves a complete list of all insurance policies in the system. Returns an array of
+        policy objects with full details including policy holder information, coverage amounts,
+        premiums, and current status.
+
+        **Use Cases**:
+        - Dashboard views showing all active policies
+        - Policy portfolio management
+        - Reporting and analytics
+        - Bulk policy operations
+
+        **Performance**: This endpoint returns all policies without pagination. For large datasets,
+        consider implementing filtering or pagination in future versions.
+      operationId: listPolicies
+      responses:
+        '200':
+          description: |
+            Successfully retrieved the list of policies. Returns an array of policy objects,
+            which may be empty if no policies exist in the system.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Policy'
+              examples:
+                multiplePolicies:
+                  summary: Multiple policies returned
+                  value:
+                    - id: POL-1729627800000-abc123
+                      policyNumber: INS-2024-001234
+                      policyType: auto
+                      holderName: John Doe
+                      holderEmail: john.doe@example.com
+                      premium: 1200.50
+                      coverageAmount: 50000
+                      startDate: '2024-01-01T00:00:00Z'
+                      endDate: '2025-01-01T00:00:00Z'
+                      status: active
+                      createdAt: '2024-01-01T00:00:00Z'
+                      updatedAt: '2024-01-01T00:00:00Z'
+                    - id: POL-002
+                      policyNumber: INS-2024-001235
+                      policyType: home
+                      holderName: Jane Smith
+                      holderEmail: jane.smith@example.com
+                      premium: 2400.00
+                      coverageAmount: 250000
+                      startDate: '2024-02-01T00:00:00Z'
+                      endDate: '2025-02-01T00:00:00Z'
+                      status: active
+                      createdAt: '2024-02-01T00:00:00Z'
+                      updatedAt: '2024-02-01T00:00:00Z'
+                emptyList:
+                  summary: No policies exist
+                  value: []
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+    post:
+      tags:
+        - Policies
+      summary: Create New Policy
+      description: |
+        Creates a new insurance policy in the system. Accepts policy details including type,
+        holder information, coverage amounts, and validity period. The system automatically
+        generates a unique policy ID, policy number, and timestamps.
+
+        **Validation**:
+        - All required fields must be provided
+        - Email must be in valid format
+        - Premium and coverage amounts must be positive numbers
+        - Start date must be before end date (recommended)
+        - Policy type must be one of: auto, home, life, health
+
+        **Auto-generated Fields**:
+        - `id`: Unique identifier (format: POL-{timestamp}-{random})
+        - `policyNumber`: Human-readable policy number (format: INS-YYYY-NNNNNN)
+        - `createdAt`: ISO 8601 timestamp of creation
+        - `updatedAt`: Initially set to creation time
+      operationId: createPolicy
+      requestBody:
+        required: true
+        description: Policy details for creation
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePolicy'
+            examples:
+              autoPolicy:
+                summary: Auto insurance policy
+                value:
+                  policyNumber: INS-2024-001234
+                  policyType: auto
+                  holderName: John Doe
+                  holderEmail: john.doe@example.com
+                  premium: 1200.50
+                  coverageAmount: 50000
+                  startDate: '2024-01-01T00:00:00Z'
+                  endDate: '2025-01-01T00:00:00Z'
+                  status: active
+              homePolicy:
+                summary: Home insurance policy
+                value:
+                  policyNumber: INS-2024-001235
+                  policyType: home
+                  holderName: Jane Smith
+                  holderEmail: jane.smith@example.com
+                  premium: 2400.00
+                  coverageAmount: 250000
+                  startDate: '2024-02-01T00:00:00Z'
+                  endDate: '2025-02-01T00:00:00Z'
+                  status: active
+      responses:
+        '201':
+          description: |
+            Policy created successfully. Returns the complete policy object including
+            auto-generated fields like ID and timestamps.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Policy'
+              examples:
+                created:
+                  summary: Successfully created policy
+                  value:
+                    id: POL-1729627800000-abc123
+                    policyNumber: INS-2024-001234
+                    policyType: auto
+                    holderName: John Doe
+                    holderEmail: john.doe@example.com
+                    premium: 1200.50
+                    coverageAmount: 50000
+                    startDate: '2024-01-01T00:00:00Z'
+                    endDate: '2025-01-01T00:00:00Z'
+                    status: active
+                    createdAt: '2024-01-01T00:00:00Z'
+                    updatedAt: '2024-01-01T00:00:00Z'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /api/policies/{id}:
+    parameters:
+      - $ref: '#/components/parameters/PolicyId'
+
+    get:
+      tags:
+        - Policies
+      summary: Get Policy by ID
+      description: |
+        Retrieves a single insurance policy by its unique identifier. Returns complete policy
+        details including holder information, coverage, and current status.
+
+        **Use Cases**:
+        - Policy detail views
+        - Verifying policy information before claims
+        - Policy lookup and verification
+        - Displaying policy information to customers
+      operationId: getPolicyById
+      responses:
+        '200':
+          description: |
+            Policy found and returned successfully with all details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Policy'
+              examples:
+                found:
+                  summary: Policy found
+                  value:
+                    id: POL-1729627800000-abc123
+                    policyNumber: INS-2024-001234
+                    policyType: auto
+                    holderName: John Doe
+                    holderEmail: john.doe@example.com
+                    premium: 1200.50
+                    coverageAmount: 50000
+                    startDate: '2024-01-01T00:00:00Z'
+                    endDate: '2025-01-01T00:00:00Z'
+                    status: active
+                    createdAt: '2024-01-01T00:00:00Z'
+                    updatedAt: '2024-01-01T00:00:00Z'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/PolicyNotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+    put:
+      tags:
+        - Policies
+      summary: Update Policy
+      description: |
+        Updates an existing insurance policy with new information. Supports partial updates
+        (only provided fields will be updated). The system automatically updates the `updatedAt`
+        timestamp.
+
+        **Validation**:
+        - Policy ID must exist
+        - All provided fields must pass validation
+        - Email must be valid format if provided
+        - Amounts must be positive if provided
+        - Cannot modify: id, createdAt
+
+        **Use Cases**:
+        - Updating policy holder contact information
+        - Adjusting coverage amounts or premiums
+        - Changing policy status (active → cancelled)
+        - Extending or modifying policy period
+
+        **Best Practices**:
+        - Only send fields that need to be updated
+        - Verify policy exists before updating
+        - Consider business rules (e.g., can't extend expired policies)
+      operationId: updatePolicy
+      requestBody:
+        required: true
+        description: Fields to update (partial update supported)
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdatePolicy'
+            examples:
+              updateStatus:
+                summary: Cancel a policy
+                value:
+                  status: cancelled
+              updateCoverage:
+                summary: Increase coverage amount
+                value:
+                  coverageAmount: 75000
+                  premium: 1500.00
+              updateContact:
+                summary: Update holder email
+                value:
+                  holderEmail: john.newemail@example.com
+      responses:
+        '200':
+          description: |
+            Policy updated successfully. Returns the complete updated policy object with
+            new `updatedAt` timestamp.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Policy'
+              examples:
+                updated:
+                  summary: Successfully updated
+                  value:
+                    id: POL-1729627800000-abc123
+                    policyNumber: INS-2024-001234
+                    policyType: auto
+                    holderName: John Doe
+                    holderEmail: john.newemail@example.com
+                    premium: 1200.50
+                    coverageAmount: 50000
+                    startDate: '2024-01-01T00:00:00Z'
+                    endDate: '2025-01-01T00:00:00Z'
+                    status: active
+                    createdAt: '2024-01-01T00:00:00Z'
+                    updatedAt: '2024-06-15T10:30:00Z'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/PolicyNotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+    delete:
+      tags:
+        - Policies
+      summary: Delete Policy
+      description: |
+        Permanently deletes an insurance policy from the system. This operation cannot be undone.
+
+        **⚠️ Warning**: This is a destructive operation. Consider implementing soft deletes
+        or archival in production systems.
+
+        **Considerations**:
+        - Check for associated claims before deletion
+        - Verify no pending transactions exist
+        - Ensure regulatory compliance for data retention
+        - Consider business rules (e.g., can't delete active policies)
+
+        **Use Cases**:
+        - Removing test or duplicate policies
+        - Data cleanup operations
+        - Compliance with data deletion requests
+      operationId: deletePolicy
+      responses:
+        '200':
+          description: |
+            Policy deleted successfully. Returns confirmation message.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+              examples:
+                deleted:
+                  summary: Successfully deleted
+                  value:
+                    message: Policy deleted successfully
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/PolicyNotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /api/claims:
+    get:
+      tags:
+        - Claims
+      summary: List All Claims
+      description: |
+        Retrieves a complete list of all insurance claims in the system. Returns an array of
+        claim objects with full details including claim amounts, statuses, and processing information.
+
+        **Use Cases**:
+        - Claims dashboard and management interface
+        - Viewing all pending claims for processing
+        - Claims reporting and analytics
+        - Audit trails and claim history
+
+        **Claim Lifecycle**:
+        1. Filed (status: pending)
+        2. Under review (status: processing)
+        3. Resolved (status: approved or rejected)
+      operationId: listClaims
+      responses:
+        '200':
+          description: |
+            Successfully retrieved the list of claims. Returns an array which may be empty
+            if no claims exist.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Claim'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+    post:
+      tags:
+        - Claims
+      summary: Create New Claim
+      description: |
+        Creates a new insurance claim against an existing policy. The claim is initially created
+        with 'pending' status and requires subsequent approval or rejection.
+
+        **Validation**:
+        - Policy ID must reference an existing policy
+        - Claim amount must be positive
+        - Claim type must be valid (accident, theft, damage, medical, other)
+        - Description is required for claim documentation
+
+        **Auto-generated Fields**:
+        - `id`: Unique claim identifier (format: CLM-{timestamp}-{random})
+        - `claimNumber`: Human-readable claim number (format: CLM-YYYY-NNNNNN)
+        - `status`: Initially set to 'pending'
+        - `createdAt`: Timestamp of claim filing
+        - `updatedAt`: Initially set to creation time
+
+        **Workflow**:
+        1. Claim created (this endpoint)
+        2. Claim reviewed and processed
+        3. Claim approved or rejected (via workflow endpoints)
+      operationId: createClaim
+      requestBody:
+        required: true
+        description: Claim details for filing
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateClaim'
+            examples:
+              accidentClaim:
+                summary: Auto accident claim
+                value:
+                  claimNumber: CLM-2024-001234
+                  policyId: POL-001
+                  claimType: accident
+                  description: Vehicle collision on highway resulting in front-end damage
+                  claimAmount: 5000
+                  status: pending
+                  filedDate: '2024-06-15T10:30:00Z'
+                  notes: Awaiting police report and photos
+              medicalClaim:
+                summary: Health insurance claim
+                value:
+                  claimNumber: CLM-2024-001236
+                  policyId: POL-1729627800002-ghi789
+                  claimType: medical
+                  description: Emergency room visit for broken arm
+                  claimAmount: 3500
+                  status: pending
+                  filedDate: '2024-06-16T14:00:00Z'
+                  notes: Medical records attached
+      responses:
+        '201':
+          description: |
+            Claim created successfully. Returns the complete claim object with auto-generated
+            fields and initial 'pending' status.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Claim'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /api/claims/{id}:
+    parameters:
+      - $ref: '#/components/parameters/ClaimId'
+
+    get:
+      tags:
+        - Claims
+      summary: Get Claim by ID
+      description: |
+        Retrieves a single insurance claim by its unique identifier. Returns complete claim
+        details including current status, amounts, and processing information.
+
+        **Use Cases**:
+        - Claim detail views
+        - Checking claim status
+        - Viewing claim processing history
+        - Customer claim inquiries
+      operationId: getClaimById
+      responses:
+        '200':
+          description: |
+            Claim found and returned successfully with all details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Claim'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/ClaimNotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+    put:
+      tags:
+        - Claims
+      summary: Update Claim
+      description: |
+        Updates an existing insurance claim with new information. Supports partial updates
+        where only provided fields are modified. The system automatically updates the `updatedAt`
+        timestamp.
+
+        **Validation**:
+        - Claim ID must exist
+        - Cannot modify: id, createdAt, claimNumber
+        - Status changes should preferably use workflow endpoints (approve/reject)
+
+        **Common Updates**:
+        - Adding notes or documentation
+        - Updating claim description with new information
+        - Adjusting claim amount after assessment
+        - Changing status (though workflow endpoints are preferred)
+
+        **Note**: For status changes to 'approved' or 'rejected', consider using the dedicated
+        workflow endpoints (`/api/claims/{id}/approve` or `/api/claims/{id}/reject`) which
+        handle additional business logic like setting processedDate.
+      operationId: updateClaim
+      requestBody:
+        required: true
+        description: Fields to update (partial update supported)
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateClaim'
+            examples:
+              addNotes:
+                summary: Add processing notes
+                value:
+                  notes: Police report received. Proceeding with damage assessment.
+                  status: processing
+              adjustAmount:
+                summary: Update claim amount after assessment
+                value:
+                  claimAmount: 4750
+                  notes: Amount adjusted after independent assessment
+      responses:
+        '200':
+          description: |
+            Claim updated successfully. Returns the complete updated claim object.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Claim'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/ClaimNotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+    delete:
+      tags:
+        - Claims
+      summary: Delete Claim
+      description: |
+        Permanently deletes an insurance claim from the system. This operation cannot be undone.
+
+        **⚠️ Warning**: This is a destructive operation. In production systems:
+        - Consider soft deletes instead
+        - Implement audit logging
+        - Require elevated permissions
+        - Check regulatory compliance requirements
+
+        **Business Rules**:
+        - Should not delete approved/rejected claims (already processed)
+        - Consider archiving instead of deletion for record-keeping
+        - Verify no related transactions or payments exist
+
+        **Use Cases**:
+        - Removing duplicate claims
+        - Cleaning up test data
+        - Handling withdrawn claims before processing
+      operationId: deleteClaim
+      responses:
+        '200':
+          description: |
+            Claim deleted successfully. Returns confirmation message.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+              examples:
+                deleted:
+                  summary: Successfully deleted
+                  value:
+                    message: Claim deleted successfully
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/ClaimNotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /api/claims/{id}/approve:
+    parameters:
+      - $ref: '#/components/parameters/ClaimId'
+
+    post:
+      tags:
+        - Claims
+      summary: Approve Claim
+      description: |
+        Approves a pending or processing insurance claim, marking it as resolved and approved
+        for payment. This is a workflow action that updates the claim status and sets the
+        processing timestamp.
+
+        **Workflow Logic**:
+        - Changes claim status to 'approved'
+        - Sets `processedDate` to current timestamp
+        - Updates `updatedAt` timestamp
+        - Optionally adds approval notes
+
+        **Prerequisites**:
+        - Claim must exist
+        - Typically claim should be in 'pending' or 'processing' status
+        - All required documentation should be verified
+
+        **Post-Approval Actions** (to be implemented):
+        - Trigger payment processing
+        - Send notification to policy holder
+        - Update claim statistics
+        - Create audit log entry
+
+        **Use Cases**:
+        - Final approval after claim review
+        - Automated approval for small claims
+        - Manager approval after investigation
+      operationId: approveClaim
+      responses:
+        '200':
+          description: |
+            Claim approved successfully. Returns the updated claim object with 'approved' status
+            and processedDate set.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Claim'
+              examples:
+                approved:
+                  summary: Successfully approved
+                  value:
+                    id: CLM-1729627800000-xyz789
+                    claimNumber: CLM-2024-001234
+                    policyId: POL-1729627800000-abc123
+                    claimType: accident
+                    description: Vehicle collision on highway
+                    claimAmount: 5000
+                    status: approved
+                    filedDate: '2024-06-15T10:30:00Z'
+                    processedDate: '2024-06-20T14:00:00Z'
+                    notes: Claim approved after verification of police report and damage assessment
+                    createdAt: '2024-06-15T10:30:00Z'
+                    updatedAt: '2024-06-20T14:00:00Z'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/ClaimNotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /api/claims/{id}/reject:
+    parameters:
+      - $ref: '#/components/parameters/ClaimId'
+
+    post:
+      tags:
+        - Claims
+      summary: Reject Claim
+      description: |
+        Rejects an insurance claim, marking it as resolved but not approved for payment.
+        This is a workflow action that updates the claim status and sets the processing timestamp.
+
+        **Workflow Logic**:
+        - Changes claim status to 'rejected'
+        - Sets `processedDate` to current timestamp
+        - Updates `updatedAt` timestamp
+        - Should include rejection reason in notes
+
+        **Prerequisites**:
+        - Claim must exist
+        - Typically claim should be in 'pending' or 'processing' status
+
+        **Best Practices**:
+        - Always provide clear rejection reason in notes
+        - Document which policy terms or conditions weren't met
+        - Ensure rejection complies with policy terms
+        - Consider regulatory requirements for claim denials
+
+        **Post-Rejection Actions** (to be implemented):
+        - Send notification to policy holder with reason
+        - Provide appeal process information
+        - Create audit log entry
+        - Update claim statistics
+
+        **Common Rejection Reasons**:
+        - Insufficient documentation
+        - Not covered under policy terms
+        - Claim filed after coverage period
+        - Fraudulent claim suspected
+      operationId: rejectClaim
+      responses:
+        '200':
+          description: |
+            Claim rejected successfully. Returns the updated claim object with 'rejected' status
+            and processedDate set.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Claim'
+              examples:
+                rejected:
+                  summary: Successfully rejected
+                  value:
+                    id: CLM-1729627800000-xyz789
+                    claimNumber: CLM-2024-001234
+                    policyId: POL-1729627800000-abc123
+                    claimType: accident
+                    description: Vehicle collision on highway
+                    claimAmount: 5000
+                    status: rejected
+                    filedDate: '2024-06-15T10:30:00Z'
+                    processedDate: '2024-06-20T14:00:00Z'
+                    notes: Claim rejected - damage occurred before policy start date. Not covered under current policy terms.
+                    createdAt: '2024-06-15T10:30:00Z'
+                    updatedAt: '2024-06-20T14:00:00Z'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/ClaimNotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /api/risk-assessment:
+    post:
+      tags:
+        - Risk Assessment
+      summary: Create Risk Assessment
+      description: |
+        Creates a new risk assessment for an insurance policy. Risk assessments evaluate various
+        factors to calculate a risk score (0-100) and assign a risk level (low, medium, high, critical).
+
+        **Risk Scoring**:
+        - **0-25**: Low risk - Standard coverage, favorable premiums
+        - **26-50**: Medium risk - Standard coverage with moderate premiums
+        - **51-75**: High risk - May require additional underwriting or premium adjustments
+        - **76-100**: Critical risk - Requires senior underwriting approval or coverage denial
+
+        **Assessment Factors** (examples):
+        - Age and demographics
+        - Geographic location and risk exposure
+        - Claims history and frequency
+        - Coverage amount and type
+        - Industry-specific risk factors
+        - Credit score or financial stability (where applicable)
+
+        **Auto-generated Fields**:
+        - `id`: Unique assessment identifier (format: RISK-{timestamp}-{random})
+        - `assessmentDate`: Timestamp of assessment creation
+        - `assessedBy`: Typically 'system' for automated assessments, or username for manual
+        - `createdAt`: Record creation timestamp
+
+        **Use Cases**:
+        - Initial underwriting for new policies
+        - Periodic reassessment of existing policies
+        - Risk evaluation after claims or life events
+        - Premium adjustment calculations
+      operationId: createRiskAssessment
+      requestBody:
+        required: true
+        description: Risk assessment details and calculated scores
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateRiskAssessment'
+            examples:
+              mediumRisk:
+                summary: Medium risk assessment
+                value:
+                  policyId: POL-001
+                  riskScore: 45
+                  riskLevel: medium
+                  factors:
+                    - 'Age: 35 years'
+                    - 'Location: Urban area'
+                    - 'Claims History: 1 claim in 5 years'
+                    - 'Vehicle Age: 3 years'
+                    - 'Annual Mileage: 12000 miles'
+                  assessmentDate: '2024-01-01T00:00:00Z'
+                  assessedBy: system
+                  notes: Standard risk profile for urban driver
+              highRisk:
+                summary: High risk assessment
+                value:
+                  policyId: POL-002
+                  riskScore: 68
+                  riskLevel: high
+                  factors:
+                    - 'Age: 22 years'
+                    - 'Location: High-theft area'
+                    - 'Claims History: 2 claims in 2 years'
+                    - 'Vehicle Type: Sports car'
+                    - 'Credit Score: Fair'
+                  assessmentDate: '2024-02-01T00:00:00Z'
+                  assessedBy: underwriter-jane
+                  notes: Elevated risk due to location and claims history. Premium adjustment recommended.
+      responses:
+        '201':
+          description: |
+            Risk assessment created successfully. Returns the complete assessment object with
+            auto-generated fields.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RiskAssessment'
+              examples:
+                created:
+                  summary: Successfully created assessment
+                  value:
+                    id: RISK-1729627800000-rst123
+                    policyId: POL-1729627800000-abc123
+                    riskScore: 45
+                    riskLevel: medium
+                    factors:
+                      - 'Age: 35 years'
+                      - 'Location: Urban area'
+                      - 'Claims History: 1 claim in 5 years'
+                      - 'Vehicle Age: 3 years'
+                      - 'Annual Mileage: 12000 miles'
+                    assessmentDate: '2024-01-01T00:00:00Z'
+                    assessedBy: system
+                    notes: Standard risk profile for urban driver
+                    createdAt: '2024-01-01T00:00:00Z'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /api/risk-assessment/{policyId}:
+    parameters:
+      - name: policyId
+        in: path
+        required: true
+        description: |
+          The unique identifier of the policy for which to retrieve risk assessments.
+          This should match the policyId field in the risk assessment records.
+        schema:
+          type: string
+          example: POL-001
+
+    get:
+      tags:
+        - Risk Assessment
+      summary: Get Risk Assessment by Policy ID
+      description: |
+        Retrieves the risk assessment(s) associated with a specific insurance policy. Returns
+        assessment details including risk score, level, and contributing factors.
+
+        **Response Behavior**:
+        - Returns the most recent assessment if multiple exist
+        - May return an array if the endpoint is configured to return assessment history
+        - Returns 404 if no assessment exists for the policy
+
+        **Use Cases**:
+        - Reviewing current risk profile before policy renewal
+        - Displaying risk information to underwriters
+        - Comparing risk assessments over time
+        - Calculating premium adjustments based on risk
+
+        **Integration Points**:
+        - Policy underwriting workflow
+        - Premium calculation engines
+        - Claims processing (verify coverage vs. risk)
+        - Customer risk management tools
+      operationId: getRiskAssessmentByPolicyId
+      responses:
+        '200':
+          description: |
+            Risk assessment found and returned successfully. Contains complete assessment details
+            including risk score, level, and all contributing factors.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RiskAssessment'
+              examples:
+                found:
+                  summary: Assessment found
+                  value:
+                    id: RISK-1729627800000-rst123
+                    policyId: POL-1729627800000-abc123
+                    riskScore: 45
+                    riskLevel: medium
+                    factors:
+                      - 'Age: 35 years'
+                      - 'Location: Urban area'
+                      - 'Claims History: 1 claim in 5 years'
+                      - 'Vehicle Age: 3 years'
+                      - 'Annual Mileage: 12000 miles'
+                    assessmentDate: '2024-01-01T00:00:00Z'
+                    assessedBy: system
+                    notes: Standard risk profile for urban driver
+                    createdAt: '2024-01-01T00:00:00Z'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          description: |
+            No risk assessment found for the specified policy ID. This may indicate the policy
+            has not been assessed yet or the policy ID doesn't exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                notFound:
+                  summary: Assessment not found
+                  value:
+                    error: Risk assessment not found for this policy
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+      description: |
+        API key authentication for all endpoints. Include your API key in the `x-api-key` header
+        with each request.
+
+        **Valid API keys for demo**:
+        - `demo-key-12345`
+        - `test-key-67890`
+
+        **Example**:
+        ```
+        x-api-key: demo-key-12345
+        ```
+
+  parameters:
+    PolicyId:
+      name: id
+      in: path
+      required: true
+      description: |
+        The unique identifier of the insurance policy. This is auto-generated when a policy
+        is created and follows the format: POL-{timestamp}-{random}.
+      schema:
+        type: string
+        example: POL-001
+
+    ClaimId:
+      name: id
+      in: path
+      required: true
+      description: |
+        The unique identifier of the insurance claim. This is auto-generated when a claim
+        is created and follows the format: CLM-{timestamp}-{random}.
+      schema:
+        type: string
+        example: CLM-001
+
+  responses:
+    UnauthorizedError:
+      description: |
+        Authentication failed. The request either doesn't include an API key or the provided
+        API key is invalid. Include a valid API key in the `x-api-key` header.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            unauthorized:
+              summary: Missing or invalid API key
+              value:
+                error: Unauthorized
+                message: Valid API key required
+
+    ValidationError:
+      description: |
+        The request body contains invalid data or missing required fields. Check the error
+        message for specific validation failures and correct the request data.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            validationFailed:
+              summary: Validation error
+              value:
+                error: Invalid input
+                message: 'Validation error: email must be a valid email address'
+
+    PolicyNotFound:
+      description: |
+        The specified policy ID does not exist in the system. Verify the policy ID and try again.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            notFound:
+              summary: Policy not found
+              value:
+                error: Policy not found
+
+    ClaimNotFound:
+      description: |
+        The specified claim ID does not exist in the system. Verify the claim ID and try again.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            notFound:
+              summary: Claim not found
+              value:
+                error: Claim not found
+
+    ServerError:
+      description: |
+        An unexpected error occurred on the server. This may be due to a system issue or
+        data corruption. Contact support if the problem persists.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            serverError:
+              summary: Internal server error
+              value:
+                error: Internal server error
+                message: An unexpected error occurred
+
+  schemas:
+    Policy:
+      type: object
+      description: |
+        Represents an insurance policy contract with comprehensive details about coverage,
+        premiums, policy holder, and validity period. This is the core entity for managing
+        insurance agreements.
+      required:
+        - id
+        - policyNumber
+        - policyType
+        - holderName
+        - holderEmail
+        - premium
+        - coverageAmount
+        - startDate
+        - endDate
+        - status
+        - createdAt
+        - updatedAt
+      properties:
+        id:
+          type: string
+          description: |
+            Unique system-generated identifier for the policy. Auto-generated on creation
+            with format: POL-{timestamp}-{random}. This ID is immutable and used for all
+            policy operations.
+          example: POL-1729627800000-abc123
+        policyNumber:
+          type: string
+          description: |
+            Human-readable policy number displayed to customers and used in correspondence.
+            Format: INS-YYYY-NNNNNN. This number appears on policy documents, insurance cards,
+            and customer communications.
+          example: INS-2024-001234
+        policyType:
+          type: string
+          enum:
+            - auto
+            - home
+            - life
+            - health
+          description: |
+            The type of insurance coverage provided by this policy:
+            - **auto**: Vehicle insurance covering automobiles, motorcycles, etc.
+            - **home**: Property insurance covering homes, apartments, and contents
+            - **life**: Life insurance providing death benefits to beneficiaries
+            - **health**: Medical insurance covering healthcare costs
+          example: auto
+        holderName:
+          type: string
+          description: |
+            Full legal name of the policy holder (insured person or entity). This should match
+            official identification documents and is used for policy ownership verification.
+          example: John Doe
+        holderEmail:
+          type: string
+          format: email
+          description: |
+            Primary email address for the policy holder. Used for policy communications,
+            renewals, claims notifications, and account management. Must be a valid email format.
+          example: john.doe@example.com
+        premium:
+          type: number
+          format: double
+          exclusiveMinimum: 0
+          description: |
+            The insurance premium amount charged for this policy coverage. Typically represents
+            the annual premium cost. Must be a positive number. Currency is implied by system
+            configuration (e.g., USD).
+          example: 1200.50
+        coverageAmount:
+          type: number
+          format: double
+          exclusiveMinimum: 0
+          description: |
+            The maximum coverage or benefit amount provided by this policy. This represents the
+            highest amount that can be paid out for covered claims or losses. Must be a positive
+            number.
+          example: 50000
+        startDate:
+          type: string
+          format: date-time
+          description: |
+            The date and time when policy coverage begins. Claims or incidents before this date
+            are not covered. ISO 8601 format (UTC timezone). Must be a valid datetime.
+          example: '2024-01-01T00:00:00Z'
+        endDate:
+          type: string
+          format: date-time
+          description: |
+            The date and time when policy coverage expires. Claims or incidents after this date
+            are not covered unless the policy is renewed. ISO 8601 format (UTC timezone).
+            Should be after startDate.
+          example: '2025-01-01T00:00:00Z'
+        status:
+          type: string
+          enum:
+            - active
+            - expired
+            - cancelled
+          description: |
+            Current status of the insurance policy:
+            - **active**: Policy is currently in force and providing coverage
+            - **expired**: Policy has reached its end date and is no longer providing coverage
+            - **cancelled**: Policy was terminated before its end date (by holder or insurer)
+          example: active
+        createdAt:
+          type: string
+          format: date-time
+          description: |
+            Timestamp when the policy record was created in the system. Auto-generated on creation.
+            ISO 8601 format (UTC timezone). Immutable field.
+          example: '2024-01-01T00:00:00Z'
+        updatedAt:
+          type: string
+          format: date-time
+          description: |
+            Timestamp when the policy record was last modified. Auto-updated on any field change.
+            ISO 8601 format (UTC timezone). Used for tracking policy change history.
+          example: '2024-01-01T00:00:00Z'
+
+    CreatePolicy:
+      type: object
+      description: |
+        Schema for creating a new insurance policy. Omits auto-generated fields (id, createdAt,
+        updatedAt) which are populated by the system upon creation.
+      required:
+        - policyNumber
+        - policyType
+        - holderName
+        - holderEmail
+        - premium
+        - coverageAmount
+        - startDate
+        - endDate
+        - status
+      properties:
+        policyNumber:
+          type: string
+          description: "Human-readable policy number (format: INS-YYYY-NNNNNN)"
+          example: INS-2024-001234
+        policyType:
+          type: string
+          enum:
+            - auto
+            - home
+            - life
+            - health
+          description: Type of insurance coverage
+          example: auto
+        holderName:
+          type: string
+          description: Full legal name of the policy holder
+          example: John Doe
+        holderEmail:
+          type: string
+          format: email
+          description: Primary email address of the policy holder
+          example: john.doe@example.com
+        premium:
+          type: number
+          format: double
+          exclusiveMinimum: 0
+          description: Annual premium amount (must be positive)
+          example: 1200.50
+        coverageAmount:
+          type: number
+          format: double
+          exclusiveMinimum: 0
+          description: Maximum coverage amount (must be positive)
+          example: 50000
+        startDate:
+          type: string
+          format: date-time
+          description: Policy coverage start date and time (ISO 8601)
+          example: '2024-01-01T00:00:00Z'
+        endDate:
+          type: string
+          format: date-time
+          description: Policy coverage end date and time (ISO 8601)
+          example: '2025-01-01T00:00:00Z'
+        status:
+          type: string
+          enum: 
+            - active
+            - expired
+            - cancelled
+          description: Initial policy status (typically 'active' for new policies)
+          example: active
+
+    UpdatePolicy:
+      type: object
+      description: |
+        Schema for updating an existing policy. All fields are optional (partial update).
+        Cannot modify id or createdAt. The updatedAt field is automatically updated by the system.
+      properties:
+        policyNumber:
+          type: string
+          description: Update the policy number
+          example: INS-2024-001235
+        policyType:
+          type: string
+          enum: 
+            - auto
+            - home
+            - life
+            - health
+          description: Change the policy type
+          example: home
+        holderName:
+          type: string
+          description: Update policy holder name
+          example: John Smith
+        holderEmail:
+          type: string
+          format: email
+          description: Update policy holder email
+          example: john.smith@example.com
+        premium:
+          type: number
+          format: double
+          exclusiveMinimum: 0
+          description: Adjust premium amount
+          example: 1350.00
+        coverageAmount:
+          type: number
+          format: double
+          exclusiveMinimum: 0
+          description: Modify coverage amount
+          example: 75000
+        startDate:
+          type: string
+          format: date-time
+          description: Change policy start date
+          example: '2024-02-01T00:00:00Z'
+        endDate:
+          type: string
+          format: date-time
+          description: Extend or modify policy end date
+          example: '2025-02-01T00:00:00Z'
+        status:
+          type: string
+          enum: 
+            - active
+            - expired
+            - cancelled
+          description: Change policy status
+          example: cancelled
+        updatedAt:
+          type: string
+          format: date-time
+          description: Timestamp of last update (auto-generated)
+          example: '2024-06-15T10:30:00Z'
+
+    Claim:
+      type: object
+      description: |
+        Represents an insurance claim filed against a policy. Contains comprehensive information
+        about the claim including type, amount, status, and processing details.
+      required:
+        - id
+        - claimNumber
+        - policyId
+        - claimType
+        - description
+        - claimAmount
+        - status
+        - filedDate
+        - createdAt
+        - updatedAt
+      properties:
+        id:
+          type: string
+          description: |
+            Unique system-generated identifier for the claim. Auto-generated on creation
+            with format: CLM-{timestamp}-{random}. Immutable and used for all claim operations.
+          example: CLM-1729627800000-xyz789
+        claimNumber:
+          type: string
+          description: |
+            Human-readable claim number for customer reference and tracking. Format: CLM-YYYY-NNNNNN.
+            Appears on claim correspondence and documentation.
+          example: CLM-2024-001234
+        policyId:
+          type: string
+          description: |
+            Reference to the insurance policy under which this claim is filed. Must be a valid
+            policy ID existing in the system. Used to verify coverage and eligibility.
+          example: POL-1729627800000-abc123
+        claimType:
+          type: string
+          enum:
+            - accident
+            - theft
+            - damage
+            - medical
+            - other
+          description: |
+            Category of the insurance claim:
+            - **accident**: Vehicle accidents, collisions, or injury-causing incidents
+            - **theft**: Stolen property, vehicles, or burglary-related claims
+            - **damage**: Property damage from weather, fire, vandalism, etc.
+            - **medical**: Healthcare costs, medical procedures, or treatments
+            - **other**: Claims that don't fit standard categories
+          example: accident
+        description:
+          type: string
+          description: |
+            Detailed description of the incident or situation that led to the claim. Should include
+            relevant circumstances, dates, locations, and parties involved. Used for claim assessment
+            and documentation.
+          example: Vehicle collision on highway resulting in front-end damage
+        claimAmount:
+          type: number
+          format: double
+          exclusiveMinimum: 0
+          description: |
+            The monetary amount being claimed for compensation. Must be a positive number.
+            This may be adjusted during the claims process based on assessment and policy limits.
+          example: 5000
+        status:
+          type: string
+          enum:
+            - pending
+            - approved
+            - rejected
+            - processing
+          description: |
+            Current status of the claim in the processing workflow:
+            - **pending**: Newly filed, awaiting initial review
+            - **processing**: Under active review and investigation
+            - **approved**: Claim has been approved and will be paid
+            - **rejected**: Claim has been denied and will not be paid
+          example: pending
+        filedDate:
+          type: string
+          format: date-time
+          description: |
+            Date and time when the claim was originally filed. ISO 8601 format (UTC).
+            Important for determining if the claim is within policy coverage period.
+          example: '2024-06-15T10:30:00Z'
+        processedDate:
+          type: ['string', 'null']
+          format: date-time
+          description: |
+            Date and time when the claim was approved or rejected (final decision made).
+            Null for pending or processing claims. Auto-set by approval/rejection workflow.
+            ISO 8601 format (UTC).
+          example: '2024-06-20T14:00:00Z'
+        notes:
+          type: ['string', 'null']
+          description: |
+            Additional notes, comments, or documentation about the claim. May include adjuster
+            notes, missing documentation requirements, approval reasons, or rejection explanations.
+          example: Awaiting police report and damage assessment photos
+        createdAt:
+          type: string
+          format: date-time
+          description: |
+            Timestamp when the claim record was created in the system. Auto-generated on creation.
+            ISO 8601 format (UTC). Immutable field.
+          example: '2024-06-15T10:30:00Z'
+        updatedAt:
+          type: string
+          format: date-time
+          description: |
+            Timestamp of the last modification to the claim record. Auto-updated on any change.
+            ISO 8601 format (UTC). Used for tracking claim processing history.
+          example: '2024-06-15T10:30:00Z'
+
+    CreateClaim:
+      type: object
+      description: |
+        Schema for creating a new insurance claim. Omits auto-generated fields (id, createdAt,
+        updatedAt, processedDate) which are populated by the system.
+      required:
+        - claimNumber
+        - policyId
+        - claimType
+        - description
+        - claimAmount
+        - status
+        - filedDate
+      properties:
+        claimNumber:
+          type: string
+          description: "Human-readable claim number (format: CLM-YYYY-NNNNNN)"
+          example: CLM-2024-001234
+        policyId:
+          type: string
+          description: ID of the policy under which the claim is filed
+          example: POL-001
+        claimType:
+          type: string
+          enum: 
+            - accident
+            - theft
+            - damage
+            - medical
+            - other
+          description: Category of the claim
+          example: accident
+        description:
+          type: string
+          description: Detailed description of the incident or claim
+          example: Vehicle collision on highway resulting in front-end damage
+        claimAmount:
+          type: number
+          format: double
+          exclusiveMinimum: 0
+          description: Amount being claimed (must be positive)
+          example: 5000
+        status:
+          type: string
+          enum: 
+            - pending
+            - approved
+            - rejected
+            - processing
+          description: Initial claim status (typically 'pending' for new claims)
+          example: pending
+        filedDate:
+          type: string
+          format: date-time
+          description: Date when the claim was filed (ISO 8601)
+          example: '2024-06-15T10:30:00Z'
+        notes:
+          type: ['string', 'null']
+          description: Optional initial notes or comments
+          example: Awaiting police report
+
+    UpdateClaim:
+      type: object
+      description: |
+        Schema for updating an existing claim. All fields are optional (partial update).
+        Cannot modify id, createdAt, or claimNumber.
+      properties:
+        policyId:
+          type: string
+          description: Update the associated policy ID
+          example: POL-002
+        claimType:
+          type: string
+          enum: 
+            - accident
+            - theft
+            - damage
+            - medical
+            - other
+          description: Change the claim type
+          example: theft
+        description:
+          type: string
+          description: Update or add to the claim description
+          example: Updated description with additional incident details
+        claimAmount:
+          type: number
+          format: double
+          exclusiveMinimum: 0
+          description: Adjust the claim amount
+          example: 5500
+        status:
+          type: string
+          enum: 
+            - pending
+            - approved
+            - rejected
+            - processing
+          description: Change claim status (consider using workflow endpoints)
+          example: processing
+        filedDate:
+          type: string
+          format: date-time
+          description: Modify the filed date if needed
+          example: '2024-06-15T10:30:00Z'
+        processedDate:
+          type: ['string', 'null']
+          format: date-time
+          description: Set the processing date (typically via workflow endpoints)
+          example: '2024-06-20T14:00:00Z'
+        notes:
+          type: ['string', 'null']
+          description: Add or update claim notes
+          example: Police report received. Proceeding with assessment.
+        updatedAt:
+          type: string
+          format: date-time
+          description: Timestamp of update (auto-generated)
+          example: '2024-06-18T09:15:00Z'
+
+    RiskAssessment:
+      type: object
+      description: |
+        Represents a risk evaluation for an insurance policy. Contains calculated risk scores,
+        levels, and detailed factors contributing to the risk assessment.
+      required:
+        - id
+        - policyId
+        - riskScore
+        - riskLevel
+        - factors
+        - assessmentDate
+        - assessedBy
+        - createdAt
+      properties:
+        id:
+          type: string
+          description: |
+            Unique system-generated identifier for the risk assessment. Auto-generated on creation
+            with format: RISK-{timestamp}-{random}. Immutable.
+          example: RISK-1729627800000-rst123
+        policyId:
+          type: string
+          description: |
+            Reference to the insurance policy being assessed. Must be a valid policy ID.
+            Used to link risk assessments to policies for underwriting and premium calculations.
+          example: POL-1729627800000-abc123
+        riskScore:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+          description: |
+            Numerical risk score from 0 to 100, where:
+            - **0-25**: Low risk (favorable for coverage and pricing)
+            - **26-50**: Medium risk (standard underwriting)
+            - **51-75**: High risk (may require additional review or premium adjustment)
+            - **76-100**: Critical risk (senior approval or decline)
+          example: 45
+        riskLevel:
+          type: string
+          enum:
+            - low
+            - medium
+            - high
+            - critical
+          description: |
+            Categorical risk classification:
+            - **low**: Minimal risk, favorable terms
+            - **medium**: Standard risk profile
+            - **high**: Elevated risk requiring attention
+            - **critical**: Severe risk requiring immediate review
+          example: medium
+        factors:
+          type: array
+          items:
+            type: string
+          description: |
+            Array of strings describing specific factors that contribute to the risk assessment.
+            Each factor should be descriptive and quantifiable where possible. Examples include
+            demographic information, location data, claims history, and other relevant risk indicators.
+          example:
+            - 'Age: 35 years'
+            - 'Location: Urban area'
+            - 'Claims History: 1 claim in 5 years'
+            - 'Vehicle Age: 3 years'
+            - 'Annual Mileage: 12000 miles'
+        assessmentDate:
+          type: string
+          format: date-time
+          description: |
+            Date and time when the risk assessment was performed. ISO 8601 format (UTC).
+            Important for tracking assessment age and determining if reassessment is needed.
+          example: '2024-01-01T00:00:00Z'
+        assessedBy:
+          type: string
+          description: |
+            Identifier of who or what performed the assessment. Typically 'system' for automated
+            assessments, or a username/ID for manual underwriter assessments.
+          example: system
+        notes:
+          type: ['string', 'null']
+          description: |
+            Additional notes or comments about the risk assessment. May include underwriter
+            observations, recommendations, or explanations for unusual risk factors.
+          example: Standard risk profile for urban driver. No special considerations required.
+        createdAt:
+          type: string
+          format: date-time
+          description: |
+            Timestamp when the assessment record was created in the system. Auto-generated.
+            ISO 8601 format (UTC). Immutable field.
+          example: '2024-01-01T00:00:00Z'
+
+    CreateRiskAssessment:
+      type: object
+      description: |
+        Schema for creating a new risk assessment. Omits auto-generated fields (id, createdAt)
+        which are populated by the system.
+      required:
+        - policyId
+        - riskScore
+        - riskLevel
+        - factors
+        - assessmentDate
+        - assessedBy
+      properties:
+        policyId:
+          type: string
+          description: ID of the policy being assessed
+          example: POL-001
+        riskScore:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+          description: Calculated risk score (0-100)
+          example: 45
+        riskLevel:
+          type: string
+          enum: 
+            - low
+            - medium
+            - high
+            - critical
+          description: Categorical risk level
+          example: medium
+        factors:
+          type: array
+          items:
+            type: string
+          description: Array of risk factors contributing to the assessment
+          example:
+            - 'Age: 35 years'
+            - 'Location: Urban area'
+            - 'Claims History: 1 claim in 5 years'
+        assessmentDate:
+          type: string
+          format: date-time
+          description: Date when assessment was performed (ISO 8601)
+          example: '2024-01-01T00:00:00Z'
+        assessedBy:
+          type: string
+          description: Who performed the assessment ('system' or username)
+          example: system
+        notes:
+          type: ['string', 'null']
+          description: Optional assessment notes or comments
+          example: Standard risk profile for urban driver
+
+    ErrorResponse:
+      type: object
+      description: |
+        Standard error response format returned by the API when a request fails. Provides
+        error classification and optional detailed message for troubleshooting.
+      required:
+        - error
+      properties:
+        error:
+          type: string
+          description: |
+            Short error classification or title. Examples: 'Unauthorized', 'Invalid input',
+            'Policy not found', 'Internal server error'.
+          example: Invalid input
+        message:
+          type: ['string', 'null']
+          description: |
+            Detailed error message explaining what went wrong and potentially how to fix it.
+            May include validation errors, missing fields, or specific failure reasons.
+          example: 'Validation error: email must be a valid email address'
+
+    SuccessResponse:
+      type: object
+      description: |
+        Standard success response format for operations that don't return a specific resource.
+        Typically used for delete operations or workflow actions.
+      required:
+        - message
+      properties:
+        message:
+          type: string
+          description: |
+            Success message describing the completed operation. Should be clear and user-friendly.
+          example: Operation completed successfully
+        data:
+          description: |
+            Optional additional data returned with the success response. Can be any type
+            depending on the operation.
+

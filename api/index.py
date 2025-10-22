@@ -10,8 +10,8 @@ from fastmcp import FastMCP
 
 # Load the OpenAPI specification
 def load_openapi_spec():
-    """Load the OpenAPI spec from the public directory"""
-    spec_path = Path(__file__).parent.parent / "public" / "openapi.yaml"
+    """Load the OpenAPI spec from the api directory"""
+    spec_path = Path(__file__).parent / "openapi.yaml"
 
     # Read YAML file and convert to JSON for FastMCP
     import yaml
