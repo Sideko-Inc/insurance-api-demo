@@ -44,8 +44,8 @@ mcp = FastMCP.from_openapi(
 )
 
 # Export the ASGI app for Vercel
-# FastMCP provides SSE (Server-Sent Events) app which works with Vercel
-app = mcp.sse_app
+# FastMCP provides HTTP app for modern deployment
+app = mcp.http_app
 
 # Main entry point for local development
 if __name__ == "__main__":
