@@ -43,8 +43,9 @@ mcp = FastMCP.from_openapi(
     tags={"insurance", "api", "management"},
 )
 
-# Export the WSGI app for Vercel
-app = mcp.streamable_http_app
+# Export the SSE app for Vercel (MCP clients expect SSE transport)
+# Note: This uses the deprecated sse_app but it's what MCP clients like Claude expect
+app = mcp.sse_app
 
 # Main entry point for local development
 if __name__ == "__main__":
