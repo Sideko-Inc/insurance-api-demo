@@ -240,12 +240,28 @@ export async function POST(request: NextRequest) {
         id: body.id,
         result: {
           protocolVersion: "2024-11-05",
-          capabilities: { tools: {} },
+          capabilities: {
+            tools: {},
+          },
           serverInfo: {
             name: "insurance-api-server",
             version: "1.0.0",
           },
         },
+      });
+    }
+
+    // Handle notifications/initialized (no response needed for notifications)
+    if (body.method === "notifications/initialized") {
+      return new Response(null, { status: 204 });
+    }
+
+    // Handle ping
+    if (body.method === "ping") {
+      return Response.json({
+        jsonrpc: "2.0",
+        id: body.id,
+        result: {},
       });
     }
 
@@ -270,7 +286,14 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    // Unknown method
+    // Unknown method - check if it's a notification (no id)
+    if (!body.id) {
+      // Notifications don't get a response
+      console.log("Received notification:", body.method);
+      return new Response(null, { status: 204 });
+    }
+
+    // Unknown method with id - return error
     return Response.json({
       jsonrpc: "2.0",
       id: body.id,
@@ -280,6 +303,7 @@ export async function POST(request: NextRequest) {
       },
     });
   } catch (error) {
+    console.error("MCP Error:", error);
     return Response.json(
       {
         jsonrpc: "2.0",
@@ -293,12 +317,19 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// Simple GET endpoint for health check
+// Simple GET endpoint for health check and tool discovery
 export async function GET(request: NextRequest) {
   return Response.json({
     name: "insurance-api-mcp-server",
     version: "1.0.0",
     description: "Insurance Management API MCP Server",
-    status: "ready"
+    status: "ready",
+    capabilities: {
+      tools: tools.map(tool => ({
+        name: tool.name,
+        description: tool.description,
+        inputSchema: tool.inputSchema,
+      })),
+    },
   });
 }
