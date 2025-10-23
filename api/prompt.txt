@@ -1,5 +1,0 @@
-A customer files an auto insurance claim after a car accident. 
-The system creates a new claim record linked to their existing policy, 
-retrieves the risk assessment for that policy to help determine eligibility,
-reviews the claim details and policy coverage, then either approves or rejects
-the claim based on the assessment. 
