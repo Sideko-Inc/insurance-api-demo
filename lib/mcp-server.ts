@@ -17,6 +17,15 @@ import {
   CreateRiskAssessmentSchema,
 } from "./schemas";
 
+// Helper to convert Zod schemas to MCP-compatible JSON schemas
+// MCP requires inline schemas without $ref or $schema properties
+function zodToMCPSchema(zodSchema: any): any {
+  const jsonSchema = zodToJsonSchema(zodSchema, { $refStrategy: "none" });
+  // Remove $schema property as MCP doesn't expect it
+  const { $schema, ...schema } = jsonSchema as any;
+  return schema;
+}
+
 // Helper to make API requests to our own Next.js API
 async function apiRequest(endpoint: string, options: RequestInit = {}) {
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
@@ -45,7 +54,10 @@ const tools: Tool[] = [
   {
     name: "listPolicies",
     description: "List all insurance policies in the system",
-    inputSchema: zodToJsonSchema(PolicySchema.pick({}), "ListPoliciesInput") as any,
+    inputSchema: {
+      type: "object",
+      properties: {},
+    },
   },
   {
     name: "getPolicyById",
@@ -61,7 +73,7 @@ const tools: Tool[] = [
   {
     name: "createPolicy",
     description: "Create a new insurance policy",
-    inputSchema: zodToJsonSchema(CreatePolicySchema, "CreatePolicyInput") as any,
+    inputSchema: zodToMCPSchema(CreatePolicySchema),
   },
   {
     name: "updatePolicy",
@@ -70,7 +82,7 @@ const tools: Tool[] = [
       type: "object",
       properties: {
         id: { type: "string", description: "The policy ID" },
-        updates: zodToJsonSchema(UpdatePolicySchema, "UpdatePolicyData") as any,
+        updates: zodToMCPSchema(UpdatePolicySchema),
       },
       required: ["id", "updates"],
     },
@@ -91,7 +103,10 @@ const tools: Tool[] = [
   {
     name: "listClaims",
     description: "List all insurance claims in the system",
-    inputSchema: zodToJsonSchema(ClaimSchema.pick({}), "ListClaimsInput") as any,
+    inputSchema: {
+      type: "object",
+      properties: {},
+    },
   },
   {
     name: "getClaimById",
@@ -107,7 +122,7 @@ const tools: Tool[] = [
   {
     name: "createClaim",
     description: "Create a new insurance claim",
-    inputSchema: zodToJsonSchema(CreateClaimSchema, "CreateClaimInput") as any,
+    inputSchema: zodToMCPSchema(CreateClaimSchema),
   },
   {
     name: "updateClaim",
@@ -116,7 +131,7 @@ const tools: Tool[] = [
       type: "object",
       properties: {
         id: { type: "string", description: "The claim ID" },
-        updates: zodToJsonSchema(UpdateClaimSchema, "UpdateClaimData") as any,
+        updates: zodToMCPSchema(UpdateClaimSchema),
       },
       required: ["id", "updates"],
     },
@@ -159,7 +174,7 @@ const tools: Tool[] = [
   {
     name: "createRiskAssessment",
     description: "Create a new risk assessment for a policy",
-    inputSchema: zodToJsonSchema(CreateRiskAssessmentSchema, "CreateRiskAssessmentInput") as any,
+    inputSchema: zodToMCPSchema(CreateRiskAssessmentSchema),
   },
   {
     name: "getRiskAssessmentByPolicyId",
