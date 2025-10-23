@@ -43,12 +43,10 @@ mcp = FastMCP.from_openapi(
     tags={"insurance", "api", "management"},
 )
 
-# Export the SSE app for Vercel (MCP clients expect SSE transport)
-# Note: This uses the deprecated sse_app but it's what MCP clients like Claude expect
-app = mcp.sse_app
-
-# Export HTTP app for direct HTTP/REST access
-http_app = mcp.http_app()
+# Export the app for Vercel with HTTP transport
+# json_response=True makes GET return JSON capabilities instead of requiring SSE
+# stateless_http=True allows stateless requests suitable for serverless
+app = mcp.http_app(transport="http", json_response=True, stateless_http=True)
 
 # Main entry point for local development
 if __name__ == "__main__":
