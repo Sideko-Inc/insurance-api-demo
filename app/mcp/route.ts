@@ -230,6 +230,14 @@ async function handleToolCall(name: string, args: any) {
 
 // Handle JSON-RPC over HTTP
 export async function POST(request: NextRequest) {
+  // Add CORS headers for MCP clients
+  const headers = {
+    "Content-Type": "application/json",
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type",
+  };
+
   try {
     const body = await request.json();
 
@@ -241,19 +249,21 @@ export async function POST(request: NextRequest) {
         result: {
           protocolVersion: "2024-11-05",
           capabilities: {
-            tools: {},
+            tools: {
+              listChanged: true,
+            },
           },
           serverInfo: {
             name: "insurance-api-server",
             version: "1.0.0",
           },
         },
-      });
+      }, { headers });
     }
 
     // Handle notifications/initialized (no response needed for notifications)
     if (body.method === "notifications/initialized") {
-      return new Response(null, { status: 204 });
+      return new Response(null, { status: 204, headers });
     }
 
     // Handle ping
@@ -262,7 +272,7 @@ export async function POST(request: NextRequest) {
         jsonrpc: "2.0",
         id: body.id,
         result: {},
-      });
+      }, { headers });
     }
 
     // Handle tools/list
@@ -271,7 +281,7 @@ export async function POST(request: NextRequest) {
         jsonrpc: "2.0",
         id: body.id,
         result: { tools },
-      });
+      }, { headers });
     }
 
     // Handle tools/call
@@ -283,14 +293,14 @@ export async function POST(request: NextRequest) {
         jsonrpc: "2.0",
         id: body.id,
         result,
-      });
+      }, { headers });
     }
 
     // Unknown method - check if it's a notification (no id)
     if (!body.id) {
       // Notifications don't get a response
       console.log("Received notification:", body.method);
-      return new Response(null, { status: 204 });
+      return new Response(null, { status: 204, headers });
     }
 
     // Unknown method with id - return error
@@ -301,7 +311,7 @@ export async function POST(request: NextRequest) {
         code: -32601,
         message: `Method not found: ${body.method}`,
       },
-    });
+    }, { headers });
   } catch (error) {
     console.error("MCP Error:", error);
     return Response.json(
@@ -312,9 +322,21 @@ export async function POST(request: NextRequest) {
           message: error instanceof Error ? error.message : "Internal error",
         },
       },
-      { status: 500 }
+      { status: 500, headers }
     );
   }
+}
+
+// Handle OPTIONS for CORS preflight
+export async function OPTIONS(request: NextRequest) {
+  return new Response(null, {
+    status: 204,
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type",
+    },
+  });
 }
 
 // Simple GET endpoint for health check and tool discovery
