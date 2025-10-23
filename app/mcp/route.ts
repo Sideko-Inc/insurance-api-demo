@@ -21,6 +21,7 @@ async function apiRequest(endpoint: string, options: RequestInit = {}) {
     headers: {
       "x-api-key": apiKey,
       "Content-Type": "application/json",
+      "Accept": "application/json, text/event-stream",
       ...options.headers,
     },
   });
