@@ -47,6 +47,10 @@ mcp = FastMCP.from_openapi(
 # Note: This uses the deprecated sse_app but it's what MCP clients like Claude expect
 app = mcp.sse_app
 
+# Export HTTP app for direct HTTP/REST access
+http_app = mcp.http_app()
+
 # Main entry point for local development
 if __name__ == "__main__":
-    mcp.run()
+    # Run with HTTP transport for testing
+    mcp.run(transport="http", host="0.0.0.0", port=8000)
