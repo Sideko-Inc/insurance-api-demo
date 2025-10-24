@@ -25,5 +25,65 @@
     "notes": "Approved for full amount",
     "createdAt": "2024-06-10T09:00:00Z",
     "updatedAt": "2024-06-18T14:00:00Z"
+  },
+  {
+    "claimNumber": "CLM-2025-002",
+    "policyId": "POL-001",
+    "claimType": "theft",
+    "description": "Vehicle stolen from parking lot",
+    "claimAmount": 25000,
+    "status": "pending",
+    "filedDate": "2025-01-15T00:00:00Z",
+    "id": "CLM-1761318316740-82moqgn",
+    "createdAt": "2025-10-24T15:05:16.740Z",
+    "updatedAt": "2025-10-24T15:05:16.740Z"
+  },
+  {
+    "claimNumber": "CLM-2025-002",
+    "policyId": "POL-001",
+    "claimType": "theft",
+    "description": "Vehicle stolen from parking lot",
+    "claimAmount": 25000,
+    "status": "pending",
+    "filedDate": "2025-01-15T00:00:00Z",
+    "id": "CLM-1761319082260-szhz3ka",
+    "createdAt": "2025-10-24T15:18:02.260Z",
+    "updatedAt": "2025-10-24T15:18:02.260Z"
+  },
+  {
+    "claimNumber": "CLM-2025-002",
+    "policyId": "POL-001",
+    "claimType": "theft",
+    "description": "Vehicle stolen from parking lot",
+    "claimAmount": 25000,
+    "status": "pending",
+    "filedDate": "2025-01-15T00:00:00Z",
+    "id": "CLM-1761319088041-yldex47",
+    "createdAt": "2025-10-24T15:18:08.041Z",
+    "updatedAt": "2025-10-24T15:18:08.041Z"
+  },
+  {
+    "claimNumber": "CLM-2025-002",
+    "policyId": "POL-001",
+    "claimType": "theft",
+    "description": "Vehicle stolen from parking lot",
+    "claimAmount": 25000,
+    "status": "pending",
+    "filedDate": "2025-01-15T00:00:00Z",
+    "id": "CLM-1761319231440-7o12v4r",
+    "createdAt": "2025-10-24T15:20:31.440Z",
+    "updatedAt": "2025-10-24T15:20:31.440Z"
+  },
+  {
+    "claimNumber": "CLM-2025-002",
+    "policyId": "POL-001",
+    "claimType": "theft",
+    "description": "Vehicle stolen from parking lot",
+    "claimAmount": 25000,
+    "status": "pending",
+    "filedDate": "2025-01-15T00:00:00Z",
+    "id": "CLM-1761319234504-hm6dp5m",
+    "createdAt": "2025-10-24T15:20:34.504Z",
+    "updatedAt": "2025-10-24T15:20:34.505Z"
   }
 ]

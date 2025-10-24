@@ -4,7 +4,12 @@
     "policyId": "POL-001",
     "riskScore": 65,
     "riskLevel": "medium",
-    "factors": ["Age: 35", "Location: Urban", "Claims History: 1 claim", "Vehicle Age: 3 years"],
+    "factors": [
+      "Age: 35",
+      "Location: Urban",
+      "Claims History: 1 claim",
+      "Vehicle Age: 3 years"
+    ],
     "assessmentDate": "2024-01-01T00:00:00Z",
     "assessedBy": "system",
     "notes": "Standard risk profile for urban driver",
@@ -26,5 +31,385 @@
     "assessedBy": "system",
     "notes": "Low risk profile with good security measures",
     "createdAt": "2024-02-01T00:00:00Z"
+  },
+  {
+    "policyId": "POL-001",
+    "riskScore": 65,
+    "riskLevel": "medium",
+    "factors": [
+      "Age over 60",
+      "High coverage amount"
+    ],
+    "assessmentDate": "2025-01-20T00:00:00Z",
+    "assessedBy": "John Assessor",
+    "id": "RISK-1761318316731-pj80axa",
+    "createdAt": "2025-10-24T15:05:16.731Z"
+  },
+  {
+    "policyId": "POL-002",
+    "riskScore": 85,
+    "riskLevel": "high",
+    "factors": [
+      "Previous claims history",
+      "High-risk occupation",
+      "Location in flood zone"
+    ],
+    "assessmentDate": "2025-01-20T00:00:00Z",
+    "assessedBy": "Jane Assessor",
+    "notes": "Additional review required due to multiple high-risk factors",
+    "id": "RISK-1761318316738-sgf7f1p",
+    "createdAt": "2025-10-24T15:05:16.738Z"
+  },
+  {
+    "policyId": "POL-001",
+    "riskScore": 50,
+    "riskLevel": "low",
+    "factors": [
+      "Test factor"
+    ],
+    "assessmentDate": "2025-01-20T00:00:00Z",
+    "assessedBy": "Test Assessor",
+    "id": "RISK-1761318316743-7rkc9aw",
+    "createdAt": "2025-10-24T15:05:16.743Z"
+  },
+  {
+    "policyId": "POL-001",
+    "riskScore": 50,
+    "riskLevel": "medium",
+    "factors": [
+      "Test factor"
+    ],
+    "assessmentDate": "2025-01-20T00:00:00Z",
+    "assessedBy": "Test Assessor",
+    "id": "RISK-1761318316744-tln1ih0",
+    "createdAt": "2025-10-24T15:05:16.744Z"
+  },
+  {
+    "policyId": "POL-001",
+    "riskScore": 50,
+    "riskLevel": "high",
+    "factors": [
+      "Test factor"
+    ],
+    "assessmentDate": "2025-01-20T00:00:00Z",
+    "assessedBy": "Test Assessor",
+    "id": "RISK-1761318316745-p0mmqnt",
+    "createdAt": "2025-10-24T15:05:16.745Z"
+  },
+  {
+    "policyId": "POL-001",
+    "riskScore": 50,
+    "riskLevel": "critical",
+    "factors": [
+      "Test factor"
+    ],
+    "assessmentDate": "2025-01-20T00:00:00Z",
+    "assessedBy": "Test Assessor",
+    "id": "RISK-1761318316746-s5qly19",
+    "createdAt": "2025-10-24T15:05:16.746Z"
+  },
+  {
+    "policyId": "POL-001",
+    "riskScore": 65,
+    "riskLevel": "medium",
+    "factors": [
+      "Age over 60",
+      "High coverage amount"
+    ],
+    "assessmentDate": "2025-01-20T00:00:00Z",
+    "assessedBy": "John Assessor",
+    "id": "RISK-1761319082211-pgij03f",
+    "createdAt": "2025-10-24T15:18:02.211Z"
+  },
+  {
+    "policyId": "POL-002",
+    "riskScore": 85,
+    "riskLevel": "high",
+    "factors": [
+      "Previous claims history",
+      "High-risk occupation",
+      "Location in flood zone"
+    ],
+    "assessmentDate": "2025-01-20T00:00:00Z",
+    "assessedBy": "Jane Assessor",
+    "notes": "Additional review required due to multiple high-risk factors",
+    "id": "RISK-1761319082216-krzg6dj",
+    "createdAt": "2025-10-24T15:18:02.216Z"
+  },
+  {
+    "policyId": "POL-001",
+    "riskScore": 50,
+    "riskLevel": "low",
+    "factors": [
+      "Test factor"
+    ],
+    "assessmentDate": "2025-01-20T00:00:00Z",
+    "assessedBy": "Test Assessor",
+    "id": "RISK-1761319082222-7ivoyvb",
+    "createdAt": "2025-10-24T15:18:02.222Z"
+  },
+  {
+    "policyId": "POL-001",
+    "riskScore": 50,
+    "riskLevel": "medium",
+    "factors": [
+      "Test factor"
+    ],
+    "assessmentDate": "2025-01-20T00:00:00Z",
+    "assessedBy": "Test Assessor",
+    "id": "RISK-1761319082222-dus3mvk",
+    "createdAt": "2025-10-24T15:18:02.222Z"
+  },
+  {
+    "policyId": "POL-001",
+    "riskScore": 50,
+    "riskLevel": "high",
+    "factors": [
+      "Test factor"
+    ],
+    "assessmentDate": "2025-01-20T00:00:00Z",
+    "assessedBy": "Test Assessor",
+    "id": "RISK-1761319082225-4waxeec",
+    "createdAt": "2025-10-24T15:18:02.225Z"
+  },
+  {
+    "policyId": "POL-001",
+    "riskScore": 50,
+    "riskLevel": "critical",
+    "factors": [
+      "Test factor"
+    ],
+    "assessmentDate": "2025-01-20T00:00:00Z",
+    "assessedBy": "Test Assessor",
+    "id": "RISK-1761319082225-4ted500",
+    "createdAt": "2025-10-24T15:18:02.225Z"
+  },
+  {
+    "policyId": "POL-001",
+    "riskScore": 65,
+    "riskLevel": "medium",
+    "factors": [
+      "Age over 60",
+      "High coverage amount"
+    ],
+    "assessmentDate": "2025-01-20T00:00:00Z",
+    "assessedBy": "John Assessor",
+    "id": "RISK-1761319088000-w5g8goc",
+    "createdAt": "2025-10-24T15:18:08.000Z"
+  },
+  {
+    "policyId": "POL-002",
+    "riskScore": 85,
+    "riskLevel": "high",
+    "factors": [
+      "Previous claims history",
+      "High-risk occupation",
+      "Location in flood zone"
+    ],
+    "assessmentDate": "2025-01-20T00:00:00Z",
+    "assessedBy": "Jane Assessor",
+    "notes": "Additional review required due to multiple high-risk factors",
+    "id": "RISK-1761319088004-jrh1rw8",
+    "createdAt": "2025-10-24T15:18:08.004Z"
+  },
+  {
+    "policyId": "POL-001",
+    "riskScore": 50,
+    "riskLevel": "low",
+    "factors": [
+      "Test factor"
+    ],
+    "assessmentDate": "2025-01-20T00:00:00Z",
+    "assessedBy": "Test Assessor",
+    "id": "RISK-1761319088010-npl3ntj",
+    "createdAt": "2025-10-24T15:18:08.010Z"
+  },
+  {
+    "policyId": "POL-001",
+    "riskScore": 50,
+    "riskLevel": "medium",
+    "factors": [
+      "Test factor"
+    ],
+    "assessmentDate": "2025-01-20T00:00:00Z",
+    "assessedBy": "Test Assessor",
+    "id": "RISK-1761319088011-enidqis",
+    "createdAt": "2025-10-24T15:18:08.011Z"
+  },
+  {
+    "policyId": "POL-001",
+    "riskScore": 50,
+    "riskLevel": "high",
+    "factors": [
+      "Test factor"
+    ],
+    "assessmentDate": "2025-01-20T00:00:00Z",
+    "assessedBy": "Test Assessor",
+    "id": "RISK-1761319088012-zl6il4m",
+    "createdAt": "2025-10-24T15:18:08.012Z"
+  },
+  {
+    "policyId": "POL-001",
+    "riskScore": 50,
+    "riskLevel": "critical",
+    "factors": [
+      "Test factor"
+    ],
+    "assessmentDate": "2025-01-20T00:00:00Z",
+    "assessedBy": "Test Assessor",
+    "id": "RISK-1761319088012-z2f2liy",
+    "createdAt": "2025-10-24T15:18:08.012Z"
+  },
+  {
+    "policyId": "POL-001",
+    "riskScore": 65,
+    "riskLevel": "medium",
+    "factors": [
+      "Age over 60",
+      "High coverage amount"
+    ],
+    "assessmentDate": "2025-01-20T00:00:00Z",
+    "assessedBy": "John Assessor",
+    "id": "RISK-1761319231376-0mz78l6",
+    "createdAt": "2025-10-24T15:20:31.376Z"
+  },
+  {
+    "policyId": "POL-002",
+    "riskScore": 85,
+    "riskLevel": "high",
+    "factors": [
+      "Previous claims history",
+      "High-risk occupation",
+      "Location in flood zone"
+    ],
+    "assessmentDate": "2025-01-20T00:00:00Z",
+    "assessedBy": "Jane Assessor",
+    "notes": "Additional review required due to multiple high-risk factors",
+    "id": "RISK-1761319231380-bqm03vh",
+    "createdAt": "2025-10-24T15:20:31.380Z"
+  },
+  {
+    "policyId": "POL-001",
+    "riskScore": 50,
+    "riskLevel": "low",
+    "factors": [
+      "Test factor"
+    ],
+    "assessmentDate": "2025-01-20T00:00:00Z",
+    "assessedBy": "Test Assessor",
+    "id": "RISK-1761319231386-9e6fjid",
+    "createdAt": "2025-10-24T15:20:31.386Z"
+  },
+  {
+    "policyId": "POL-001",
+    "riskScore": 50,
+    "riskLevel": "medium",
+    "factors": [
+      "Test factor"
+    ],
+    "assessmentDate": "2025-01-20T00:00:00Z",
+    "assessedBy": "Test Assessor",
+    "id": "RISK-1761319231387-uarc5de",
+    "createdAt": "2025-10-24T15:20:31.387Z"
+  },
+  {
+    "policyId": "POL-001",
+    "riskScore": 50,
+    "riskLevel": "high",
+    "factors": [
+      "Test factor"
+    ],
+    "assessmentDate": "2025-01-20T00:00:00Z",
+    "assessedBy": "Test Assessor",
+    "id": "RISK-1761319231388-ej5ria3",
+    "createdAt": "2025-10-24T15:20:31.388Z"
+  },
+  {
+    "policyId": "POL-001",
+    "riskScore": 50,
+    "riskLevel": "critical",
+    "factors": [
+      "Test factor"
+    ],
+    "assessmentDate": "2025-01-20T00:00:00Z",
+    "assessedBy": "Test Assessor",
+    "id": "RISK-1761319231388-3y5sj9l",
+    "createdAt": "2025-10-24T15:20:31.388Z"
+  },
+  {
+    "policyId": "POL-001",
+    "riskScore": 65,
+    "riskLevel": "medium",
+    "factors": [
+      "Age over 60",
+      "High coverage amount"
+    ],
+    "assessmentDate": "2025-01-20T00:00:00Z",
+    "assessedBy": "John Assessor",
+    "id": "RISK-1761319234435-aw37hvk",
+    "createdAt": "2025-10-24T15:20:34.435Z"
+  },
+  {
+    "policyId": "POL-002",
+    "riskScore": 85,
+    "riskLevel": "high",
+    "factors": [
+      "Previous claims history",
+      "High-risk occupation",
+      "Location in flood zone"
+    ],
+    "assessmentDate": "2025-01-20T00:00:00Z",
+    "assessedBy": "Jane Assessor",
+    "notes": "Additional review required due to multiple high-risk factors",
+    "id": "RISK-1761319234440-yja8lnf",
+    "createdAt": "2025-10-24T15:20:34.440Z"
+  },
+  {
+    "policyId": "POL-001",
+    "riskScore": 50,
+    "riskLevel": "low",
+    "factors": [
+      "Test factor"
+    ],
+    "assessmentDate": "2025-01-20T00:00:00Z",
+    "assessedBy": "Test Assessor",
+    "id": "RISK-1761319234445-5nbw4ke",
+    "createdAt": "2025-10-24T15:20:34.445Z"
+  },
+  {
+    "policyId": "POL-001",
+    "riskScore": 50,
+    "riskLevel": "medium",
+    "factors": [
+      "Test factor"
+    ],
+    "assessmentDate": "2025-01-20T00:00:00Z",
+    "assessedBy": "Test Assessor",
+    "id": "RISK-1761319234446-wxh2onk",
+    "createdAt": "2025-10-24T15:20:34.446Z"
+  },
+  {
+    "policyId": "POL-001",
+    "riskScore": 50,
+    "riskLevel": "high",
+    "factors": [
+      "Test factor"
+    ],
+    "assessmentDate": "2025-01-20T00:00:00Z",
+    "assessedBy": "Test Assessor",
+    "id": "RISK-1761319234448-svxdwiv",
+    "createdAt": "2025-10-24T15:20:34.448Z"
+  },
+  {
+    "policyId": "POL-001",
+    "riskScore": 50,
+    "riskLevel": "critical",
+    "factors": [
+      "Test factor"
+    ],
+    "assessmentDate": "2025-01-20T00:00:00Z",
+    "assessedBy": "Test Assessor",
+    "id": "RISK-1761319234449-2t34lp6",
+    "createdAt": "2025-10-24T15:20:34.449Z"
   }
 ]

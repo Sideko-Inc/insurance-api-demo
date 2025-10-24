@@ -4,7 +4,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "mcp": "tsx mcp-server.ts"
+    "test": "jest"
   },
   "dependencies": {
     "@tailwindcss/postcss": "^4.1.15",
@@ -18,16 +18,23 @@
     "path": "0.12.7",
     "react": "19.2.0",
     "react-dom": "19.2.0",
+    "redis": "^5.9.0",
     "tailwind-merge": "3.3.1",
     "tailwindcss-animate": "1.0.7",
     "zod": "^3.24.1"
   },
   "devDependencies": {
+    "@jest/globals": "^30.2.0",
+    "@types/jest": "^30.0.0",
     "@types/node": "24.9.1",
     "@types/react": "19.2.2",
     "@types/react-dom": "19.2.2",
+    "jest": "^30.2.0",
+    "node-mocks-http": "^1.17.2",
     "postcss": "8.5.6",
     "tailwindcss": "^4.1.9",
+    "ts-jest": "^29.4.5",
+    "ts-node": "^10.9.2",
     "tsx": "^4.20.6",
     "typescript": "5.9.3"
   }

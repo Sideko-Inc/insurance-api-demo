@@ -1,8 +1,11 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Shield, FileText, AlertCircle, BarChart3 } from "lucide-react"
+import { Shield, FileText, BrainCircuit, BarChart3 } from "lucide-react"
 
 export default function HomePage() {
+
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-muted/20">
       <div className="container mx-auto px-4 py-16 max-w-6xl">
@@ -46,15 +49,14 @@ export default function HomePage() {
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <AlertCircle className="h-5 w-5" />
-                Authentication
+                <BrainCircuit className="h-5 w-5" />
+                MCP
               </CardTitle>
-              <CardDescription>API key required for all endpoints</CardDescription>
+              <CardDescription>MCP Server (1 tool per http operation)</CardDescription>
             </CardHeader>
             <CardContent>
-              <p className="text-sm text-muted-foreground mb-2">Include in request headers:</p>
               <code className="block bg-muted p-3 rounded-md text-sm font-mono break-all">
-                x-api-key: demo-key-12345
+                {baseUrl}/api/policies
               </code>
             </CardContent>
           </Card>
@@ -190,7 +192,7 @@ export default function HomePage() {
             <div>
               <p className="text-sm font-medium mb-2">List all policies:</p>
               <code className="block bg-muted p-4 rounded-md text-xs font-mono overflow-x-auto">
-                curl -X GET http://localhost:3000/api/policies \{"\n"}
+                curl -X GET {baseUrl}/api/policies \{"\n"}
                 {"  "}-H "x-api-key: demo-key-12345"
               </code>
             </div>
@@ -198,7 +200,7 @@ export default function HomePage() {
             <div>
               <p className="text-sm font-medium mb-2">Create a new claim:</p>
               <code className="block bg-muted p-4 rounded-md text-xs font-mono overflow-x-auto">
-                curl -X POST http://localhost:3000/api/claims \{"\n"}
+                curl -X POST {baseUrl}/api/claims \{"\n"}
                 {"  "}-H "x-api-key: demo-key-12345" \{"\n"}
                 {"  "}-H "Content-Type: application/json" \{"\n"}
                 {"  "}-d '{`{`}
@@ -218,7 +220,7 @@ export default function HomePage() {
             <div>
               <p className="text-sm font-medium mb-2">Get risk assessment for a policy:</p>
               <code className="block bg-muted p-4 rounded-md text-xs font-mono overflow-x-auto">
-                curl -X GET http://localhost:3000/api/risk-assessment/POL-001 \{"\n"}
+                curl -X GET {baseUrl}/api/risk-assessment/POL-001 \{"\n"}
                 {"  "}-H "x-api-key: demo-key-12345"
               </code>
             </div>
