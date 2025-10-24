@@ -1,0 +1,47 @@
+[
+  {
+    "policyId": "POL-1761331606254-a3x1gzp",
+    "firstName": "Mary",
+    "lastName": "Doe",
+    "relationship": "spouse",
+    "percentage": 100,
+    "id": "BEN-1761331606882-v8d4dlj",
+    "createdAt": "2025-10-24T18:46:46.882Z"
+  },
+  {
+    "policyId": "POL-1761331775686-039o2zw",
+    "firstName": "Mary",
+    "lastName": "Doe",
+    "relationship": "spouse",
+    "percentage": 100,
+    "id": "BEN-1761331776279-pznwej2",
+    "createdAt": "2025-10-24T18:49:36.279Z"
+  },
+  {
+    "policyId": "POL-1761331958574-uc1t303",
+    "firstName": "Mary",
+    "lastName": "Doe",
+    "relationship": "spouse",
+    "percentage": 100,
+    "id": "BEN-1761331958628-ocanlge",
+    "createdAt": "2025-10-24T18:52:38.628Z"
+  },
+  {
+    "policyId": "POL-1761332639720-maj1t5w",
+    "firstName": "Mary",
+    "lastName": "Doe",
+    "relationship": "spouse",
+    "percentage": 100,
+    "id": "BEN-1761332640144-fmadwu7",
+    "createdAt": "2025-10-24T19:04:00.144Z"
+  },
+  {
+    "policyId": "POL-1761333513667-kt18rrh",
+    "firstName": "Mary",
+    "lastName": "Doe",
+    "relationship": "spouse",
+    "percentage": 100,
+    "id": "BEN-1761333513718-vml6yvk",
+    "createdAt": "2025-10-24T19:18:33.718Z"
+  }
+]

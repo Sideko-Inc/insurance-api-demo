@@ -411,5 +411,101 @@
     "assessedBy": "Test Assessor",
     "id": "RISK-1761319234449-2t34lp6",
     "createdAt": "2025-10-24T15:20:34.449Z"
+  },
+  {
+    "policyId": "POL-1761331056287-0dzgh93",
+    "riskScore": 65,
+    "riskLevel": "medium",
+    "factors": [
+      "Age of driver: 25",
+      "Clean driving record",
+      "Urban area",
+      "High coverage amount"
+    ],
+    "assessmentDate": "2025-10-24T18:37:38.188067Z",
+    "assessedBy": "AI Risk Engine v2.1",
+    "notes": "Standard risk profile for urban driver",
+    "id": "RISK-1761331058244-ql7s9or",
+    "createdAt": "2025-10-24T18:37:38.244Z"
+  },
+  {
+    "policyId": "POL-1761331568630-12opayw",
+    "riskScore": 65,
+    "riskLevel": "medium",
+    "factors": [
+      "Age of driver: 25",
+      "Clean driving record",
+      "Urban area",
+      "High coverage amount"
+    ],
+    "assessmentDate": "2025-10-24T18:46:08.825401Z",
+    "assessedBy": "AI Risk Engine v2.1",
+    "notes": "Standard risk profile for urban driver",
+    "id": "RISK-1761331568882-cv3almn",
+    "createdAt": "2025-10-24T18:46:08.882Z"
+  },
+  {
+    "policyId": "POL-1761331771886-9pg97m2",
+    "riskScore": 65,
+    "riskLevel": "medium",
+    "factors": [
+      "Age of driver: 25",
+      "Clean driving record",
+      "Urban area",
+      "High coverage amount"
+    ],
+    "assessmentDate": "2025-10-24T18:49:33.809378Z",
+    "assessedBy": "AI Risk Engine v2.1",
+    "notes": "Standard risk profile for urban driver",
+    "id": "RISK-1761331773865-d33f6xj",
+    "createdAt": "2025-10-24T18:49:33.865Z"
+  },
+  {
+    "policyId": "POL-1761331958271-gh1rqt6",
+    "riskScore": 65,
+    "riskLevel": "medium",
+    "factors": [
+      "Age of driver: 25",
+      "Clean driving record",
+      "Urban area",
+      "High coverage amount"
+    ],
+    "assessmentDate": "2025-10-24T18:52:38.366519Z",
+    "assessedBy": "AI Risk Engine v2.1",
+    "notes": "Standard risk profile for urban driver",
+    "id": "RISK-1761331958380-zwy7gmf",
+    "createdAt": "2025-10-24T18:52:38.380Z"
+  },
+  {
+    "policyId": "POL-1761332636615-bv3cq4v",
+    "riskScore": 65,
+    "riskLevel": "medium",
+    "factors": [
+      "Age of driver: 25",
+      "Clean driving record",
+      "Urban area",
+      "High coverage amount"
+    ],
+    "assessmentDate": "2025-10-24T19:03:58.376088Z",
+    "assessedBy": "AI Risk Engine v2.1",
+    "notes": "Standard risk profile for urban driver",
+    "id": "RISK-1761332638426-wj9h1qp",
+    "createdAt": "2025-10-24T19:03:58.426Z"
+  },
+  {
+    "policyId": "POL-1761333513480-ti20q3m",
+    "riskScore": 65,
+    "riskLevel": "medium",
+    "factors": [
+      "Age of driver: 25",
+      "Clean driving record",
+      "Urban area",
+      "High coverage amount"
+    ],
+    "assessmentDate": "2025-10-24T19:18:33.543793Z",
+    "assessedBy": "AI Risk Engine v2.1",
+    "notes": "Standard risk profile for urban driver",
+    "id": "RISK-1761333513549-baf9v21",
+    "createdAt": "2025-10-24T19:18:33.549Z"
   }
 ]

@@ -1,0 +1,112 @@
+[
+  {
+    "firstName": "John",
+    "lastName": "Doe",
+    "email": "john.doe@example.com",
+    "phone": "+1-555-0100",
+    "dateOfBirth": "1985-05-15",
+    "address": {
+      "street": "123 Main St",
+      "city": "Springfield",
+      "state": "IL",
+      "zipCode": "62701",
+      "country": "USA"
+    },
+    "id": "CUS-1761331604778-8su3dls",
+    "createdAt": "2025-10-24T18:46:44.778Z"
+  },
+  {
+    "firstName": "John",
+    "lastName": "Doe",
+    "email": "john.doe@example.com",
+    "phone": "+1-555-0100",
+    "dateOfBirth": "1985-05-15",
+    "address": {
+      "street": "123 Main St",
+      "city": "Springfield",
+      "state": "IL",
+      "zipCode": "62701",
+      "country": "USA"
+    },
+    "id": "CUS-1761331774366-s0stld5",
+    "createdAt": "2025-10-24T18:49:34.366Z"
+  },
+  {
+    "firstName": "John",
+    "lastName": "Doe",
+    "email": "john.doe@example.com",
+    "phone": "+1-555-0100",
+    "dateOfBirth": "1985-05-15",
+    "address": {
+      "street": "123 Main St",
+      "city": "Springfield",
+      "state": "IL",
+      "zipCode": "62701",
+      "country": "USA"
+    },
+    "id": "CUS-1761331958498-bl5oky1",
+    "createdAt": "2025-10-24T18:52:38.498Z"
+  },
+  {
+    "firstName": "Test",
+    "lastName": "User",
+    "email": "test@example.com",
+    "phone": "+1-555-0100",
+    "address": {
+      "street": "123 Test St",
+      "city": "Test City",
+      "state": "TS",
+      "zipCode": "12345",
+      "country": "USA"
+    },
+    "id": "CUS-1761332607341-acnxos4",
+    "createdAt": "2025-10-24T19:03:27.342Z"
+  },
+  {
+    "firstName": "John",
+    "lastName": "Doe",
+    "email": "john.doe@example.com",
+    "phone": "+1-555-0100",
+    "dateOfBirth": "1985-05-15",
+    "address": {
+      "street": "123 Main St",
+      "city": "Springfield",
+      "state": "IL",
+      "zipCode": "62701",
+      "country": "USA"
+    },
+    "id": "CUS-1761332638444-355gg22",
+    "createdAt": "2025-10-24T19:03:58.444Z"
+  },
+  {
+    "firstName": "John",
+    "lastName": "Doe",
+    "email": "john.doe@example.com",
+    "phone": "+1-555-0100",
+    "dateOfBirth": "1985-05-15",
+    "address": {
+      "street": "123 Main St",
+      "city": "Springfield",
+      "state": "IL",
+      "zipCode": "62701",
+      "country": "USA"
+    },
+    "id": "CUS-1761333513588-gdabhuc",
+    "createdAt": "2025-10-24T19:18:33.588Z"
+  },
+  {
+    "firstName": "Test",
+    "lastName": "User",
+    "email": "test@example.com",
+    "phone": "+1-555-0100",
+    "address": {
+      "street": "123 Test St",
+      "city": "Test City",
+      "state": "TS",
+      "zipCode": "12345",
+      "country": "USA"
+    },
+    "id": "CUS-1761333515770-nmwjhob",
+    "createdAt": "2025-10-24T19:18:35.770Z"
+  }
+]

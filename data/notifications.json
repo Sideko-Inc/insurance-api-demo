@@ -1,0 +1,47 @@
+[
+  {
+    "recipientEmail": "customer@example.com",
+    "type": "email",
+    "subject": "Policy Renewal Reminder",
+    "message": "Your policy is up for renewal next month.",
+    "id": "NOT-1761331607865-817cyel",
+    "createdAt": "2025-10-24T18:46:47.865Z",
+    "status": "pending"
+  },
+  {
+    "recipientEmail": "customer@example.com",
+    "type": "email",
+    "subject": "Policy Renewal Reminder",
+    "message": "Your policy is up for renewal next month.",
+    "id": "NOT-1761331777158-bfcw8qr",
+    "createdAt": "2025-10-24T18:49:37.158Z",
+    "status": "pending"
+  },
+  {
+    "recipientEmail": "customer@example.com",
+    "type": "email",
+    "subject": "Policy Renewal Reminder",
+    "message": "Your policy is up for renewal next month.",
+    "id": "NOT-1761331958736-m757inv",
+    "createdAt": "2025-10-24T18:52:38.736Z",
+    "status": "pending"
+  },
+  {
+    "recipientEmail": "customer@example.com",
+    "type": "email",
+    "subject": "Policy Renewal Reminder",
+    "message": "Your policy is up for renewal next month.",
+    "id": "NOT-1761332640700-huchrk4",
+    "createdAt": "2025-10-24T19:04:00.700Z",
+    "status": "pending"
+  },
+  {
+    "recipientEmail": "customer@example.com",
+    "type": "email",
+    "subject": "Policy Renewal Reminder",
+    "message": "Your policy is up for renewal next month.",
+    "id": "NOT-1761333513810-cea3n4a",
+    "createdAt": "2025-10-24T19:18:33.810Z",
+    "status": "pending"
+  }
+]

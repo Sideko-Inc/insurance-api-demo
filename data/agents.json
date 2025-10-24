@@ -1,0 +1,62 @@
+[
+  {
+    "firstName": "Jane",
+    "lastName": "Smith",
+    "email": "jane.smith@insurance.com",
+    "phone": "+1-555-0200",
+    "licenseNumber": "AG-12345",
+    "commissionRate": 5.5,
+    "territory": "Northeast",
+    "id": "AGE-1761331606816-fvw6u5h",
+    "createdAt": "2025-10-24T18:46:46.816Z",
+    "status": "active"
+  },
+  {
+    "firstName": "Jane",
+    "lastName": "Smith",
+    "email": "jane.smith@insurance.com",
+    "phone": "+1-555-0200",
+    "licenseNumber": "AG-12345",
+    "commissionRate": 5.5,
+    "territory": "Northeast",
+    "id": "AGE-1761331776229-du83b49",
+    "createdAt": "2025-10-24T18:49:36.229Z",
+    "status": "active"
+  },
+  {
+    "firstName": "Jane",
+    "lastName": "Smith",
+    "email": "jane.smith@insurance.com",
+    "phone": "+1-555-0200",
+    "licenseNumber": "AG-12345",
+    "commissionRate": 5.5,
+    "territory": "Northeast",
+    "id": "AGE-1761331958606-mofymil",
+    "createdAt": "2025-10-24T18:52:38.606Z",
+    "status": "active"
+  },
+  {
+    "firstName": "Jane",
+    "lastName": "Smith",
+    "email": "jane.smith@insurance.com",
+    "phone": "+1-555-0200",
+    "licenseNumber": "AG-12345",
+    "commissionRate": 5.5,
+    "territory": "Northeast",
+    "id": "AGE-1761332640136-lachts2",
+    "createdAt": "2025-10-24T19:04:00.136Z",
+    "status": "active"
+  },
+  {
+    "firstName": "Jane",
+    "lastName": "Smith",
+    "email": "jane.smith@insurance.com",
+    "phone": "+1-555-0200",
+    "licenseNumber": "AG-12345",
+    "commissionRate": 5.5,
+    "territory": "Northeast",
+    "id": "AGE-1761333513703-dkk2dwo",
+    "createdAt": "2025-10-24T19:18:33.703Z",
+    "status": "active"
+  }
+]

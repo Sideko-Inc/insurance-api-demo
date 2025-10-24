@@ -1,0 +1,47 @@
+[
+  {
+    "claimId": "CLM-1761331607497-12dmvn3",
+    "thirdParty": "Acme Insurance Co.",
+    "amountSought": 15000,
+    "notes": "Other driver at fault, seeking recovery",
+    "id": "SUB-1761331608873-l3ldrno",
+    "createdAt": "2025-10-24T18:46:48.873Z",
+    "status": "initiated"
+  },
+  {
+    "claimId": "CLM-1761331772485-y4cjrlw",
+    "thirdParty": "Acme Insurance Co.",
+    "amountSought": 15000,
+    "notes": "Other driver at fault, seeking recovery",
+    "id": "SUB-1761331778185-g3sbmzy",
+    "createdAt": "2025-10-24T18:49:38.185Z",
+    "status": "initiated"
+  },
+  {
+    "claimId": "CLM-1761331958302-rwcmw9u",
+    "thirdParty": "Acme Insurance Co.",
+    "amountSought": 15000,
+    "notes": "Other driver at fault, seeking recovery",
+    "id": "SUB-1761331958828-6yvg4rb",
+    "createdAt": "2025-10-24T18:52:38.828Z",
+    "status": "initiated"
+  },
+  {
+    "claimId": "CLM-1761332637131-l9b1oqq",
+    "thirdParty": "Acme Insurance Co.",
+    "amountSought": 15000,
+    "notes": "Other driver at fault, seeking recovery",
+    "id": "SUB-1761332641576-rc1cqpl",
+    "createdAt": "2025-10-24T19:04:01.576Z",
+    "status": "initiated"
+  },
+  {
+    "claimId": "CLM-1761333513508-0om3eae",
+    "thirdParty": "Acme Insurance Co.",
+    "amountSought": 15000,
+    "notes": "Other driver at fault, seeking recovery",
+    "id": "SUB-1761333513843-7o100oi",
+    "createdAt": "2025-10-24T19:18:33.843Z",
+    "status": "initiated"
+  }
+]

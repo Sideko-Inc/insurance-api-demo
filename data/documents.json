@@ -1,0 +1,48 @@
+[
+  {
+    "entityType": "policy",
+    "entityId": "POL-1761331606254-a3x1gzp",
+    "documentType": "policy_document",
+    "fileName": "policy_agreement.pdf",
+    "fileUrl": "https://example.com/documents/policy_agreement.pdf",
+    "id": "DOC-1761331606938-a0radb7",
+    "createdAt": "2025-10-24T18:46:46.938Z",
+    "uploadedAt": "2025-10-24T18:46:46.938Z"
+  },
+  {
+    "entityType": "policy",
+    "entityId": "POL-1761331775686-039o2zw",
+    "documentType": "policy_document",
+    "fileName": "policy_agreement.pdf",
+    "fileUrl": "https://example.com/documents/policy_agreement.pdf",
+    "id": "DOC-1761331776333-i9igpma",
+    "uploadedAt": "2025-10-24T18:49:36.333Z"
+  },
+  {
+    "entityType": "policy",
+    "entityId": "POL-1761331958574-uc1t303",
+    "documentType": "policy_document",
+    "fileName": "policy_agreement.pdf",
+    "fileUrl": "https://example.com/documents/policy_agreement.pdf",
+    "id": "DOC-1761331958645-kz6il7v",
+    "uploadedAt": "2025-10-24T18:52:38.645Z"
+  },
+  {
+    "entityType": "policy",
+    "entityId": "POL-1761332639720-maj1t5w",
+    "documentType": "policy_document",
+    "fileName": "policy_agreement.pdf",
+    "fileUrl": "https://example.com/documents/policy_agreement.pdf",
+    "id": "DOC-1761332640151-czisx2v",
+    "uploadedAt": "2025-10-24T19:04:00.151Z"
+  },
+  {
+    "entityType": "policy",
+    "entityId": "POL-1761333513667-kt18rrh",
+    "documentType": "policy_document",
+    "fileName": "policy_agreement.pdf",
+    "fileUrl": "https://example.com/documents/policy_agreement.pdf",
+    "id": "DOC-1761333513733-w98ihop",
+    "uploadedAt": "2025-10-24T19:18:33.733Z"
+  }
+]

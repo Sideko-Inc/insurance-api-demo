@@ -1,0 +1,47 @@
+[
+  {
+    "policyId": "POL-1761331606254-a3x1gzp",
+    "amount": 1200.5,
+    "paymentMethod": "credit_card",
+    "id": "PAY-1761331606323-puqy8rr",
+    "createdAt": "2025-10-24T18:46:46.323Z",
+    "status": "pending",
+    "paymentDate": "2025-10-24T18:46:46.323Z"
+  },
+  {
+    "policyId": "POL-1761331775686-039o2zw",
+    "amount": 1200.5,
+    "paymentMethod": "credit_card",
+    "id": "PAY-1761331775740-jcrxkaf",
+    "createdAt": "2025-10-24T18:49:35.740Z",
+    "status": "pending",
+    "paymentDate": "2025-10-24T18:49:35.740Z"
+  },
+  {
+    "policyId": "POL-1761331958574-uc1t303",
+    "amount": 1200.5,
+    "paymentMethod": "credit_card",
+    "id": "PAY-1761331958586-hqfgn1n",
+    "createdAt": "2025-10-24T18:52:38.586Z",
+    "status": "pending",
+    "paymentDate": "2025-10-24T18:52:38.586Z"
+  },
+  {
+    "policyId": "POL-1761332639720-maj1t5w",
+    "amount": 1200.5,
+    "paymentMethod": "credit_card",
+    "id": "PAY-1761332639725-qgw8vm7",
+    "createdAt": "2025-10-24T19:03:59.725Z",
+    "status": "pending",
+    "paymentDate": "2025-10-24T19:03:59.725Z"
+  },
+  {
+    "policyId": "POL-1761333513667-kt18rrh",
+    "amount": 1200.5,
+    "paymentMethod": "credit_card",
+    "id": "PAY-1761333513677-t3bf35v",
+    "createdAt": "2025-10-24T19:18:33.677Z",
+    "status": "pending",
+    "paymentDate": "2025-10-24T19:18:33.677Z"
+  }
+]

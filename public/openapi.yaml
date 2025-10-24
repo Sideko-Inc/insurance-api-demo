@@ -42,6 +42,54 @@ tags:
       Risk evaluation endpoints for calculating and retrieving risk scores for insurance policies.
       Risk assessments analyze various factors to determine risk levels (low, medium, high, critical)
       and generate risk scores from 0-100. Essential for underwriting and premium calculations.
+  - name: Quotes
+    description: |
+      Insurance quote generation and management. Quotes provide premium estimates before policy creation.
+  - name: Payments
+    description: |
+      Payment processing and billing management for insurance premiums and claims.
+  - name: Documents
+    description: |
+      Document storage and retrieval for policy documents, claims, and certificates.
+  - name: Renewals
+    description: |
+      Policy renewal workflow management and notifications.
+  - name: Customers
+    description: |
+      Customer/policyholder profile and history management.
+  - name: Agents
+    description: |
+      Insurance agent and broker management with commissions tracking.
+  - name: Beneficiaries
+    description: |
+      Beneficiary management for life insurance policies.
+  - name: Fraud Detection
+    description: |
+      Fraud analysis and suspicious activity detection for claims.
+  - name: Endorsements
+    description: |
+      Policy modifications and riders management.
+  - name: Reinsurance
+    description: |
+      Reinsurance treaty and risk transfer management.
+  - name: Audit Trail
+    description: |
+      Comprehensive audit logging for compliance and tracking.
+  - name: Analytics
+    description: |
+      Business analytics and reporting for claims, policies, and performance.
+  - name: Notifications
+    description: |
+      Email and SMS notification management for policy and claim updates.
+  - name: Telematics
+    description: |
+      Usage-based insurance data from IoT devices for auto insurance.
+  - name: Inspections
+    description: |
+      Property and vehicle inspection scheduling and management.
+  - name: Subrogation
+    description: |
+      Subrogation case management for recovering claim costs from third parties.
 
 paths:
   /api/policies:
@@ -941,6 +989,1209 @@ paths:
         '500':
           $ref: '#/components/responses/ServerError'
 
+  /api/quotes:
+    get:
+      tags:
+        - Quotes
+      summary: List All Quotes
+      description: Retrieve all insurance quotes
+      operationId: listQuotes
+      responses:
+        '200':
+          description: Successfully retrieved quotes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Quote'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+
+    post:
+      tags:
+        - Quotes
+      summary: Create Quote
+      description: Generate a new insurance quote
+      operationId: createQuote
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateQuote'
+      responses:
+        '201':
+          description: Quote created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Quote'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+
+  /api/quotes/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+
+    get:
+      tags:
+        - Quotes
+      summary: Get Quote by ID
+      description: Retrieve a specific quote
+      operationId: getQuoteById
+      responses:
+        '200':
+          description: Quote found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Quote'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+
+    put:
+      tags:
+        - Quotes
+      summary: Update Quote
+      description: Update an existing quote
+      operationId: updateQuote
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateQuote'
+      responses:
+        '200':
+          description: Quote updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Quote'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+
+    delete:
+      tags:
+        - Quotes
+      summary: Delete Quote
+      description: Delete a quote
+      operationId: deleteQuote
+      responses:
+        '200':
+          description: Quote deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+
+  /api/quotes/{id}/convert:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+
+    post:
+      tags:
+        - Quotes
+      summary: Convert Quote to Policy
+      description: Convert an approved quote into a policy
+      operationId: convertQuoteToPolicy
+      responses:
+        '200':
+          description: Quote converted to policy
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Policy'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+
+  /api/payments:
+    get:
+      tags:
+        - Payments
+      summary: List All Payments
+      description: Retrieve all payment records
+      operationId: listPayments
+      responses:
+        '200':
+          description: Successfully retrieved payments
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Payment'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+
+    post:
+      tags:
+        - Payments
+      summary: Create Payment
+      description: Process a new payment
+      operationId: createPayment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePayment'
+      responses:
+        '201':
+          description: Payment processed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Payment'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+
+  /api/payments/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+
+    get:
+      tags:
+        - Payments
+      summary: Get Payment by ID
+      description: Retrieve a specific payment
+      operationId: getPaymentById
+      responses:
+        '200':
+          description: Payment found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Payment'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+
+  /api/payments/policy/{policyId}:
+    parameters:
+      - name: policyId
+        in: path
+        required: true
+        schema:
+          type: string
+
+    get:
+      tags:
+        - Payments
+      summary: Get Payments by Policy
+      description: Retrieve all payments for a policy
+      operationId: getPaymentsByPolicy
+      responses:
+        '200':
+          description: Payments retrieved
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Payment'
+
+  /api/documents:
+    get:
+      tags:
+        - Documents
+      summary: List All Documents
+      description: Retrieve all documents
+      operationId: listDocuments
+      responses:
+        '200':
+          description: Successfully retrieved documents
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Document'
+
+    post:
+      tags:
+        - Documents
+      summary: Upload Document
+      description: Upload a new document
+      operationId: createDocument
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateDocument'
+      responses:
+        '201':
+          description: Document uploaded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Document'
+
+  /api/documents/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+
+    get:
+      tags:
+        - Documents
+      summary: Get Document by ID
+      description: Retrieve a specific document
+      operationId: getDocumentById
+      responses:
+        '200':
+          description: Document found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Document'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+
+    delete:
+      tags:
+        - Documents
+      summary: Delete Document
+      description: Delete a document
+      operationId: deleteDocument
+      responses:
+        '200':
+          description: Document deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+
+  /api/renewals:
+    get:
+      tags:
+        - Renewals
+      summary: List All Renewals
+      description: Retrieve all policy renewals
+      operationId: listRenewals
+      responses:
+        '200':
+          description: Successfully retrieved renewals
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Renewal'
+
+    post:
+      tags:
+        - Renewals
+      summary: Create Renewal
+      description: Create a renewal for a policy
+      operationId: createRenewal
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateRenewal'
+      responses:
+        '201':
+          description: Renewal created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Renewal'
+
+  /api/renewals/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+
+    get:
+      tags:
+        - Renewals
+      summary: Get Renewal by ID
+      description: Retrieve a specific renewal
+      operationId: getRenewalById
+      responses:
+        '200':
+          description: Renewal found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Renewal'
+
+    put:
+      tags:
+        - Renewals
+      summary: Update Renewal
+      description: Update a renewal
+      operationId: updateRenewal
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateRenewal'
+      responses:
+        '200':
+          description: Renewal updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Renewal'
+
+  /api/renewals/{id}/approve:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+
+    post:
+      tags:
+        - Renewals
+      summary: Approve Renewal
+      description: Approve and process a renewal
+      operationId: approveRenewal
+      responses:
+        '200':
+          description: Renewal approved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Renewal'
+
+  /api/customers:
+    get:
+      tags:
+        - Customers
+      summary: List All Customers
+      description: Retrieve all customers
+      operationId: listCustomers
+      responses:
+        '200':
+          description: Successfully retrieved customers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Customer'
+
+    post:
+      tags:
+        - Customers
+      summary: Create Customer
+      description: Create a new customer profile
+      operationId: createCustomer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCustomer'
+      responses:
+        '201':
+          description: Customer created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+
+  /api/customers/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+
+    get:
+      tags:
+        - Customers
+      summary: Get Customer by ID
+      description: Retrieve a specific customer
+      operationId: getCustomerById
+      responses:
+        '200':
+          description: Customer found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+
+    put:
+      tags:
+        - Customers
+      summary: Update Customer
+      description: Update customer information
+      operationId: updateCustomer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateCustomer'
+      responses:
+        '200':
+          description: Customer updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+
+    delete:
+      tags:
+        - Customers
+      summary: Delete Customer
+      description: Delete a customer
+      operationId: deleteCustomer
+      responses:
+        '200':
+          description: Customer deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+
+  /api/agents:
+    get:
+      tags:
+        - Agents
+      summary: List All Agents
+      description: Retrieve all agents
+      operationId: listAgents
+      responses:
+        '200':
+          description: Successfully retrieved agents
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Agent'
+
+    post:
+      tags:
+        - Agents
+      summary: Create Agent
+      description: Create a new agent profile
+      operationId: createAgent
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateAgent'
+      responses:
+        '201':
+          description: Agent created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Agent'
+
+  /api/agents/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+
+    get:
+      tags:
+        - Agents
+      summary: Get Agent by ID
+      description: Retrieve a specific agent
+      operationId: getAgentById
+      responses:
+        '200':
+          description: Agent found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Agent'
+
+    put:
+      tags:
+        - Agents
+      summary: Update Agent
+      description: Update agent information
+      operationId: updateAgent
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateAgent'
+      responses:
+        '200':
+          description: Agent updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Agent'
+
+    delete:
+      tags:
+        - Agents
+      summary: Delete Agent
+      description: Delete an agent
+      operationId: deleteAgent
+      responses:
+        '200':
+          description: Agent deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+
+  /api/beneficiaries:
+    get:
+      tags:
+        - Beneficiaries
+      summary: List All Beneficiaries
+      description: Retrieve all beneficiaries
+      operationId: listBeneficiaries
+      responses:
+        '200':
+          description: Successfully retrieved beneficiaries
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Beneficiary'
+
+    post:
+      tags:
+        - Beneficiaries
+      summary: Create Beneficiary
+      description: Add a new beneficiary
+      operationId: createBeneficiary
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateBeneficiary'
+      responses:
+        '201':
+          description: Beneficiary created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Beneficiary'
+
+  /api/beneficiaries/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+
+    get:
+      tags:
+        - Beneficiaries
+      summary: Get Beneficiary by ID
+      description: Retrieve a specific beneficiary
+      operationId: getBeneficiaryById
+      responses:
+        '200':
+          description: Beneficiary found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Beneficiary'
+
+    put:
+      tags:
+        - Beneficiaries
+      summary: Update Beneficiary
+      description: Update beneficiary information
+      operationId: updateBeneficiary
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateBeneficiary'
+      responses:
+        '200':
+          description: Beneficiary updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Beneficiary'
+
+    delete:
+      tags:
+        - Beneficiaries
+      summary: Delete Beneficiary
+      description: Delete a beneficiary
+      operationId: deleteBeneficiary
+      responses:
+        '200':
+          description: Beneficiary deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+
+  /api/fraud-detection/analyze:
+    post:
+      tags:
+        - Fraud Detection
+      summary: Analyze Claim for Fraud
+      description: Run fraud detection analysis on a claim
+      operationId: analyzeFraud
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FraudAnalysisRequest'
+      responses:
+        '200':
+          description: Analysis completed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FraudAnalysis'
+
+  /api/fraud-detection/reports:
+    get:
+      tags:
+        - Fraud Detection
+      summary: List Fraud Reports
+      description: Retrieve all fraud detection reports
+      operationId: listFraudReports
+      responses:
+        '200':
+          description: Successfully retrieved reports
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FraudAnalysis'
+
+  /api/endorsements:
+    get:
+      tags:
+        - Endorsements
+      summary: List All Endorsements
+      description: Retrieve all policy endorsements
+      operationId: listEndorsements
+      responses:
+        '200':
+          description: Successfully retrieved endorsements
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Endorsement'
+
+    post:
+      tags:
+        - Endorsements
+      summary: Create Endorsement
+      description: Create a policy endorsement/rider
+      operationId: createEndorsement
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateEndorsement'
+      responses:
+        '201':
+          description: Endorsement created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Endorsement'
+
+  /api/endorsements/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+
+    get:
+      tags:
+        - Endorsements
+      summary: Get Endorsement by ID
+      description: Retrieve a specific endorsement
+      operationId: getEndorsementById
+      responses:
+        '200':
+          description: Endorsement found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Endorsement'
+
+    delete:
+      tags:
+        - Endorsements
+      summary: Delete Endorsement
+      description: Remove an endorsement
+      operationId: deleteEndorsement
+      responses:
+        '200':
+          description: Endorsement deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+
+  /api/reinsurance:
+    get:
+      tags:
+        - Reinsurance
+      summary: List Reinsurance Treaties
+      description: Retrieve all reinsurance treaties
+      operationId: listReinsurance
+      responses:
+        '200':
+          description: Successfully retrieved treaties
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Reinsurance'
+
+    post:
+      tags:
+        - Reinsurance
+      summary: Create Reinsurance Treaty
+      description: Create a new reinsurance treaty
+      operationId: createReinsurance
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateReinsurance'
+      responses:
+        '201':
+          description: Treaty created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Reinsurance'
+
+  /api/reinsurance/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+
+    get:
+      tags:
+        - Reinsurance
+      summary: Get Reinsurance by ID
+      description: Retrieve a specific treaty
+      operationId: getReinsuranceById
+      responses:
+        '200':
+          description: Treaty found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Reinsurance'
+
+  /api/audit-trail:
+    get:
+      tags:
+        - Audit Trail
+      summary: List Audit Logs
+      description: Retrieve audit trail entries
+      operationId: listAuditLogs
+      parameters:
+        - name: entityType
+          in: query
+          schema:
+            type: string
+        - name: entityId
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully retrieved audit logs
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AuditLog'
+
+  /api/analytics/claims-summary:
+    get:
+      tags:
+        - Analytics
+      summary: Get Claims Summary
+      description: Retrieve claims analytics and statistics
+      operationId: getClaimsSummary
+      responses:
+        '200':
+          description: Summary retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClaimsSummary'
+
+  /api/analytics/policies-summary:
+    get:
+      tags:
+        - Analytics
+      summary: Get Policies Summary
+      description: Retrieve policy analytics and statistics
+      operationId: getPoliciesSummary
+      responses:
+        '200':
+          description: Summary retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PoliciesSummary'
+
+  /api/analytics/loss-ratio:
+    get:
+      tags:
+        - Analytics
+      summary: Get Loss Ratio
+      description: Calculate loss ratio metrics
+      operationId: getLossRatio
+      responses:
+        '200':
+          description: Loss ratio calculated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LossRatio'
+
+  /api/notifications:
+    get:
+      tags:
+        - Notifications
+      summary: List All Notifications
+      description: Retrieve all notifications
+      operationId: listNotifications
+      responses:
+        '200':
+          description: Successfully retrieved notifications
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Notification'
+
+    post:
+      tags:
+        - Notifications
+      summary: Send Notification
+      description: Send a notification to a customer
+      operationId: createNotification
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateNotification'
+      responses:
+        '201':
+          description: Notification sent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Notification'
+
+  /api/telematics:
+    get:
+      tags:
+        - Telematics
+      summary: List Telematics Data
+      description: Retrieve telematics data for policies
+      operationId: listTelematicsData
+      responses:
+        '200':
+          description: Successfully retrieved telematics data
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TelematicsData'
+
+    post:
+      tags:
+        - Telematics
+      summary: Upload Telematics Data
+      description: Upload IoT device data
+      operationId: createTelematicsData
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTelematicsData'
+      responses:
+        '201':
+          description: Data uploaded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TelematicsData'
+
+  /api/telematics/policy/{policyId}:
+    parameters:
+      - name: policyId
+        in: path
+        required: true
+        schema:
+          type: string
+
+    get:
+      tags:
+        - Telematics
+      summary: Get Telematics by Policy
+      description: Retrieve telematics data for a specific policy
+      operationId: getTelematicsByPolicy
+      responses:
+        '200':
+          description: Data retrieved
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TelematicsData'
+
+  /api/inspections:
+    get:
+      tags:
+        - Inspections
+      summary: List All Inspections
+      description: Retrieve all inspections
+      operationId: listInspections
+      responses:
+        '200':
+          description: Successfully retrieved inspections
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Inspection'
+
+    post:
+      tags:
+        - Inspections
+      summary: Schedule Inspection
+      description: Schedule a new inspection
+      operationId: createInspection
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateInspection'
+      responses:
+        '201':
+          description: Inspection scheduled
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Inspection'
+
+  /api/inspections/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+
+    get:
+      tags:
+        - Inspections
+      summary: Get Inspection by ID
+      description: Retrieve a specific inspection
+      operationId: getInspectionById
+      responses:
+        '200':
+          description: Inspection found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Inspection'
+
+    put:
+      tags:
+        - Inspections
+      summary: Update Inspection
+      description: Update inspection details
+      operationId: updateInspection
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateInspection'
+      responses:
+        '200':
+          description: Inspection updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Inspection'
+
+  /api/inspections/{id}/complete:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+
+    post:
+      tags:
+        - Inspections
+      summary: Complete Inspection
+      description: Mark an inspection as completed
+      operationId: completeInspection
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                findings:
+                  type: string
+                approved:
+                  type: boolean
+      responses:
+        '200':
+          description: Inspection completed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Inspection'
+
+  /api/subrogation:
+    get:
+      tags:
+        - Subrogation
+      summary: List Subrogation Cases
+      description: Retrieve all subrogation cases
+      operationId: listSubrogation
+      responses:
+        '200':
+          description: Successfully retrieved cases
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Subrogation'
+
+    post:
+      tags:
+        - Subrogation
+      summary: Create Subrogation Case
+      description: Create a new subrogation case
+      operationId: createSubrogation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateSubrogation'
+      responses:
+        '201':
+          description: Case created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Subrogation'
+
+  /api/subrogation/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+
+    get:
+      tags:
+        - Subrogation
+      summary: Get Subrogation by ID
+      description: Retrieve a specific case
+      operationId: getSubrogationById
+      responses:
+        '200':
+          description: Case found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Subrogation'
+
+    put:
+      tags:
+        - Subrogation
+      summary: Update Subrogation Case
+      description: Update case information
+      operationId: updateSubrogation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateSubrogation'
+      responses:
+        '200':
+          description: Case updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Subrogation'
+
 components:
   securitySchemes:
     ApiKeyAuth:
@@ -1054,6 +2305,19 @@ components:
               value:
                 error: Internal server error
                 message: An unexpected error occurred
+
+    NotFoundError:
+      description: |
+        The requested resource was not found in the system.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            notFound:
+              summary: Resource not found
+              value:
+                error: Not found
 
   schemas:
     Policy:
@@ -1734,4 +2998,1042 @@ components:
           description: |
             Optional additional data returned with the success response. Can be any type
             depending on the operation.
+
+    Quote:
+      type: object
+      required:
+        - id
+        - policyType
+        - coverageAmount
+        - premium
+        - validUntil
+        - status
+        - createdAt
+      properties:
+        id:
+          type: string
+          example: QUO-001
+        policyType:
+          type: string
+          enum: [auto, home, life, health]
+        coverageAmount:
+          type: number
+          format: double
+        premium:
+          type: number
+          format: double
+        validUntil:
+          type: string
+          format: date-time
+        status:
+          type: string
+          enum: [draft, pending, approved, rejected, converted]
+        customerEmail:
+          type: string
+          format: email
+        customerName:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    CreateQuote:
+      type: object
+      required:
+        - policyType
+        - coverageAmount
+        - customerEmail
+        - customerName
+      properties:
+        policyType:
+          type: string
+          enum: [auto, home, life, health]
+        coverageAmount:
+          type: number
+          format: double
+        customerEmail:
+          type: string
+          format: email
+        customerName:
+          type: string
+
+    UpdateQuote:
+      type: object
+      properties:
+        premium:
+          type: number
+          format: double
+        status:
+          type: string
+          enum: [draft, pending, approved, rejected, converted]
+        validUntil:
+          type: string
+          format: date-time
+
+    Payment:
+      type: object
+      required:
+        - id
+        - policyId
+        - amount
+        - paymentDate
+        - paymentMethod
+        - status
+        - createdAt
+      properties:
+        id:
+          type: string
+          example: PAY-001
+        policyId:
+          type: string
+        amount:
+          type: number
+          format: double
+        paymentDate:
+          type: string
+          format: date-time
+        paymentMethod:
+          type: string
+          enum: [credit_card, debit_card, bank_transfer, check, cash]
+        status:
+          type: string
+          enum: [pending, completed, failed, refunded]
+        transactionId:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+
+    CreatePayment:
+      type: object
+      required:
+        - policyId
+        - amount
+        - paymentMethod
+      properties:
+        policyId:
+          type: string
+        amount:
+          type: number
+          format: double
+        paymentMethod:
+          type: string
+          enum: [credit_card, debit_card, bank_transfer, check, cash]
+
+    Document:
+      type: object
+      required:
+        - id
+        - entityType
+        - entityId
+        - documentType
+        - fileName
+        - uploadedAt
+      properties:
+        id:
+          type: string
+          example: DOC-001
+        entityType:
+          type: string
+          enum: [policy, claim, customer]
+        entityId:
+          type: string
+        documentType:
+          type: string
+          enum: [policy_document, claim_form, certificate, photo, other]
+        fileName:
+          type: string
+        fileUrl:
+          type: string
+        uploadedAt:
+          type: string
+          format: date-time
+        uploadedBy:
+          type: string
+
+    CreateDocument:
+      type: object
+      required:
+        - entityType
+        - entityId
+        - documentType
+        - fileName
+        - fileUrl
+      properties:
+        entityType:
+          type: string
+          enum: [policy, claim, customer]
+        entityId:
+          type: string
+        documentType:
+          type: string
+          enum: [policy_document, claim_form, certificate, photo, other]
+        fileName:
+          type: string
+        fileUrl:
+          type: string
+
+    Renewal:
+      type: object
+      required:
+        - id
+        - policyId
+        - renewalDate
+        - newPremium
+        - status
+        - createdAt
+      properties:
+        id:
+          type: string
+          example: REN-001
+        policyId:
+          type: string
+        renewalDate:
+          type: string
+          format: date-time
+        newPremium:
+          type: number
+          format: double
+        newCoverageAmount:
+          type: number
+          format: double
+        status:
+          type: string
+          enum: [pending, approved, rejected, completed]
+        notificationSent:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    CreateRenewal:
+      type: object
+      required:
+        - policyId
+        - renewalDate
+        - newPremium
+      properties:
+        policyId:
+          type: string
+        renewalDate:
+          type: string
+          format: date-time
+        newPremium:
+          type: number
+          format: double
+        newCoverageAmount:
+          type: number
+          format: double
+
+    UpdateRenewal:
+      type: object
+      properties:
+        newPremium:
+          type: number
+          format: double
+        newCoverageAmount:
+          type: number
+          format: double
+        status:
+          type: string
+          enum: [pending, approved, rejected, completed]
+
+    Customer:
+      type: object
+      required:
+        - id
+        - firstName
+        - lastName
+        - email
+        - phone
+        - createdAt
+      properties:
+        id:
+          type: string
+          example: CUS-001
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+          format: email
+        phone:
+          type: string
+        dateOfBirth:
+          type: string
+          format: date
+        address:
+          type: object
+          properties:
+            street:
+              type: string
+            city:
+              type: string
+            state:
+              type: string
+            zipCode:
+              type: string
+            country:
+              type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    CreateCustomer:
+      type: object
+      required:
+        - firstName
+        - lastName
+        - email
+        - phone
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+          format: email
+        phone:
+          type: string
+        dateOfBirth:
+          type: string
+          format: date
+        address:
+          type: object
+          properties:
+            street:
+              type: string
+            city:
+              type: string
+            state:
+              type: string
+            zipCode:
+              type: string
+            country:
+              type: string
+
+    UpdateCustomer:
+      type: object
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+          format: email
+        phone:
+          type: string
+        dateOfBirth:
+          type: string
+          format: date
+        address:
+          type: object
+          properties:
+            street:
+              type: string
+            city:
+              type: string
+            state:
+              type: string
+            zipCode:
+              type: string
+            country:
+              type: string
+
+    Agent:
+      type: object
+      required:
+        - id
+        - firstName
+        - lastName
+        - email
+        - licenseNumber
+        - status
+        - createdAt
+      properties:
+        id:
+          type: string
+          example: AGT-001
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+          format: email
+        phone:
+          type: string
+        licenseNumber:
+          type: string
+        status:
+          type: string
+          enum: [active, inactive, suspended]
+        commissionRate:
+          type: number
+          format: double
+        territory:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    CreateAgent:
+      type: object
+      required:
+        - firstName
+        - lastName
+        - email
+        - licenseNumber
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+          format: email
+        phone:
+          type: string
+        licenseNumber:
+          type: string
+        commissionRate:
+          type: number
+          format: double
+        territory:
+          type: string
+
+    UpdateAgent:
+      type: object
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+          format: email
+        phone:
+          type: string
+        status:
+          type: string
+          enum: [active, inactive, suspended]
+        commissionRate:
+          type: number
+          format: double
+        territory:
+          type: string
+
+    Beneficiary:
+      type: object
+      required:
+        - id
+        - policyId
+        - firstName
+        - lastName
+        - relationship
+        - percentage
+        - createdAt
+      properties:
+        id:
+          type: string
+          example: BEN-001
+        policyId:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        relationship:
+          type: string
+          enum: [spouse, child, parent, sibling, other]
+        percentage:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        dateOfBirth:
+          type: string
+          format: date
+        contactInfo:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    CreateBeneficiary:
+      type: object
+      required:
+        - policyId
+        - firstName
+        - lastName
+        - relationship
+        - percentage
+      properties:
+        policyId:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        relationship:
+          type: string
+          enum: [spouse, child, parent, sibling, other]
+        percentage:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        dateOfBirth:
+          type: string
+          format: date
+        contactInfo:
+          type: string
+
+    UpdateBeneficiary:
+      type: object
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        relationship:
+          type: string
+          enum: [spouse, child, parent, sibling, other]
+        percentage:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        contactInfo:
+          type: string
+
+    FraudAnalysisRequest:
+      type: object
+      required:
+        - claimId
+      properties:
+        claimId:
+          type: string
+
+    FraudAnalysis:
+      type: object
+      required:
+        - id
+        - claimId
+        - riskScore
+        - fraudIndicators
+        - recommendation
+        - analyzedAt
+      properties:
+        id:
+          type: string
+          example: FRD-001
+        claimId:
+          type: string
+        riskScore:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        fraudIndicators:
+          type: array
+          items:
+            type: string
+        recommendation:
+          type: string
+          enum: [approve, review, reject]
+        notes:
+          type: string
+        analyzedAt:
+          type: string
+          format: date-time
+
+    Endorsement:
+      type: object
+      required:
+        - id
+        - policyId
+        - endorsementType
+        - effectiveDate
+        - premiumChange
+        - createdAt
+      properties:
+        id:
+          type: string
+          example: END-001
+        policyId:
+          type: string
+        endorsementType:
+          type: string
+          enum: [coverage_change, rider_addition, beneficiary_change, other]
+        description:
+          type: string
+        effectiveDate:
+          type: string
+          format: date-time
+        premiumChange:
+          type: number
+          format: double
+        createdAt:
+          type: string
+          format: date-time
+
+    CreateEndorsement:
+      type: object
+      required:
+        - policyId
+        - endorsementType
+        - effectiveDate
+        - premiumChange
+      properties:
+        policyId:
+          type: string
+        endorsementType:
+          type: string
+          enum: [coverage_change, rider_addition, beneficiary_change, other]
+        description:
+          type: string
+        effectiveDate:
+          type: string
+          format: date-time
+        premiumChange:
+          type: number
+          format: double
+
+    Reinsurance:
+      type: object
+      required:
+        - id
+        - treatyName
+        - reinsurerName
+        - coverageAmount
+        - premium
+        - effectiveDate
+        - expiryDate
+        - createdAt
+      properties:
+        id:
+          type: string
+          example: REIN-001
+        treatyName:
+          type: string
+        reinsurerName:
+          type: string
+        coverageAmount:
+          type: number
+          format: double
+        premium:
+          type: number
+          format: double
+        effectiveDate:
+          type: string
+          format: date-time
+        expiryDate:
+          type: string
+          format: date-time
+        status:
+          type: string
+          enum: [active, expired, cancelled]
+        createdAt:
+          type: string
+          format: date-time
+
+    CreateReinsurance:
+      type: object
+      required:
+        - treatyName
+        - reinsurerName
+        - coverageAmount
+        - premium
+        - effectiveDate
+        - expiryDate
+      properties:
+        treatyName:
+          type: string
+        reinsurerName:
+          type: string
+        coverageAmount:
+          type: number
+          format: double
+        premium:
+          type: number
+          format: double
+        effectiveDate:
+          type: string
+          format: date-time
+        expiryDate:
+          type: string
+          format: date-time
+
+    AuditLog:
+      type: object
+      required:
+        - id
+        - entityType
+        - entityId
+        - action
+        - performedBy
+        - timestamp
+      properties:
+        id:
+          type: string
+          example: AUD-001
+        entityType:
+          type: string
+          enum: [policy, claim, payment, customer, agent]
+        entityId:
+          type: string
+        action:
+          type: string
+          enum: [create, update, delete, approve, reject]
+        performedBy:
+          type: string
+        changes:
+          type: object
+        timestamp:
+          type: string
+          format: date-time
+
+    ClaimsSummary:
+      type: object
+      required:
+        - totalClaims
+        - approvedClaims
+        - rejectedClaims
+        - pendingClaims
+        - totalClaimAmount
+        - averageClaimAmount
+      properties:
+        totalClaims:
+          type: integer
+        approvedClaims:
+          type: integer
+        rejectedClaims:
+          type: integer
+        pendingClaims:
+          type: integer
+        totalClaimAmount:
+          type: number
+          format: double
+        averageClaimAmount:
+          type: number
+          format: double
+
+    PoliciesSummary:
+      type: object
+      required:
+        - totalPolicies
+        - activePolicies
+        - expiredPolicies
+        - cancelledPolicies
+        - totalPremiumRevenue
+      properties:
+        totalPolicies:
+          type: integer
+        activePolicies:
+          type: integer
+        expiredPolicies:
+          type: integer
+        cancelledPolicies:
+          type: integer
+        totalPremiumRevenue:
+          type: number
+          format: double
+        averagePremium:
+          type: number
+          format: double
+
+    LossRatio:
+      type: object
+      required:
+        - lossRatio
+        - totalClaims
+        - totalPremiums
+        - periodStart
+        - periodEnd
+      properties:
+        lossRatio:
+          type: number
+          format: double
+        totalClaims:
+          type: number
+          format: double
+        totalPremiums:
+          type: number
+          format: double
+        periodStart:
+          type: string
+          format: date-time
+        periodEnd:
+          type: string
+          format: date-time
+
+    Notification:
+      type: object
+      required:
+        - id
+        - recipientEmail
+        - type
+        - subject
+        - message
+        - status
+        - createdAt
+      properties:
+        id:
+          type: string
+          example: NOT-001
+        recipientEmail:
+          type: string
+          format: email
+        recipientPhone:
+          type: string
+        type:
+          type: string
+          enum: [email, sms, both]
+        subject:
+          type: string
+        message:
+          type: string
+        status:
+          type: string
+          enum: [pending, sent, failed]
+        sentAt:
+          type: string
+          format: date-time
+        createdAt:
+          type: string
+          format: date-time
+
+    CreateNotification:
+      type: object
+      required:
+        - recipientEmail
+        - type
+        - subject
+        - message
+      properties:
+        recipientEmail:
+          type: string
+          format: email
+        recipientPhone:
+          type: string
+        type:
+          type: string
+          enum: [email, sms, both]
+        subject:
+          type: string
+        message:
+          type: string
+
+    TelematicsData:
+      type: object
+      required:
+        - id
+        - policyId
+        - recordDate
+        - mileage
+        - createdAt
+      properties:
+        id:
+          type: string
+          example: TEL-001
+        policyId:
+          type: string
+        recordDate:
+          type: string
+          format: date-time
+        mileage:
+          type: number
+          format: double
+        speed:
+          type: number
+          format: double
+        hardBraking:
+          type: integer
+        hardAcceleration:
+          type: integer
+        nightDriving:
+          type: number
+          format: double
+        createdAt:
+          type: string
+          format: date-time
+
+    CreateTelematicsData:
+      type: object
+      required:
+        - policyId
+        - recordDate
+        - mileage
+      properties:
+        policyId:
+          type: string
+        recordDate:
+          type: string
+          format: date-time
+        mileage:
+          type: number
+          format: double
+        speed:
+          type: number
+          format: double
+        hardBraking:
+          type: integer
+        hardAcceleration:
+          type: integer
+        nightDriving:
+          type: number
+          format: double
+
+    Inspection:
+      type: object
+      required:
+        - id
+        - policyId
+        - inspectionType
+        - scheduledDate
+        - status
+        - createdAt
+      properties:
+        id:
+          type: string
+          example: INS-001
+        policyId:
+          type: string
+        inspectionType:
+          type: string
+          enum: [property, vehicle, initial, renewal]
+        scheduledDate:
+          type: string
+          format: date-time
+        completedDate:
+          type: string
+          format: date-time
+        inspector:
+          type: string
+        findings:
+          type: string
+        approved:
+          type: boolean
+        status:
+          type: string
+          enum: [scheduled, completed, cancelled]
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    CreateInspection:
+      type: object
+      required:
+        - policyId
+        - inspectionType
+        - scheduledDate
+      properties:
+        policyId:
+          type: string
+        inspectionType:
+          type: string
+          enum: [property, vehicle, initial, renewal]
+        scheduledDate:
+          type: string
+          format: date-time
+        inspector:
+          type: string
+
+    UpdateInspection:
+      type: object
+      properties:
+        scheduledDate:
+          type: string
+          format: date-time
+        inspector:
+          type: string
+        status:
+          type: string
+          enum: [scheduled, completed, cancelled]
+
+    Subrogation:
+      type: object
+      required:
+        - id
+        - claimId
+        - thirdParty
+        - amountSought
+        - status
+        - createdAt
+      properties:
+        id:
+          type: string
+          example: SUB-001
+        claimId:
+          type: string
+        thirdParty:
+          type: string
+        amountSought:
+          type: number
+          format: double
+        amountRecovered:
+          type: number
+          format: double
+        status:
+          type: string
+          enum: [initiated, in_progress, settled, closed]
+        notes:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    CreateSubrogation:
+      type: object
+      required:
+        - claimId
+        - thirdParty
+        - amountSought
+      properties:
+        claimId:
+          type: string
+        thirdParty:
+          type: string
+        amountSought:
+          type: number
+          format: double
+        notes:
+          type: string
+
+    UpdateSubrogation:
+      type: object
+      properties:
+        amountRecovered:
+          type: number
+          format: double
+        status:
+          type: string
+          enum: [initiated, in_progress, settled, closed]
+        notes:
+          type: string
 

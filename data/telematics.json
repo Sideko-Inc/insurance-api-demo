@@ -1,0 +1,57 @@
+[
+  {
+    "policyId": "POL-1761331606254-a3x1gzp",
+    "recordDate": "2025-10-24T18:46:47.865986Z",
+    "mileage": 15230.5,
+    "speed": 65,
+    "hardBraking": 2,
+    "hardAcceleration": 1,
+    "nightDriving": 0.15,
+    "id": "TEL-1761331607913-1uf6q6f",
+    "createdAt": "2025-10-24T18:46:47.913Z"
+  },
+  {
+    "policyId": "POL-1761331775686-039o2zw",
+    "recordDate": "2025-10-24T18:49:37.159296Z",
+    "mileage": 15230.5,
+    "speed": 65,
+    "hardBraking": 2,
+    "hardAcceleration": 1,
+    "nightDriving": 0.15,
+    "id": "TEL-1761331777208-xwk0bz6",
+    "createdAt": "2025-10-24T18:49:37.208Z"
+  },
+  {
+    "policyId": "POL-1761331958574-uc1t303",
+    "recordDate": "2025-10-24T18:52:38.737034Z",
+    "mileage": 15230.5,
+    "speed": 65,
+    "hardBraking": 2,
+    "hardAcceleration": 1,
+    "nightDriving": 0.15,
+    "id": "TEL-1761331958740-9cufrk9",
+    "createdAt": "2025-10-24T18:52:38.740Z"
+  },
+  {
+    "policyId": "POL-1761332639720-maj1t5w",
+    "recordDate": "2025-10-24T19:04:00.701948Z",
+    "mileage": 15230.5,
+    "speed": 65,
+    "hardBraking": 2,
+    "hardAcceleration": 1,
+    "nightDriving": 0.15,
+    "id": "TEL-1761332640706-7n3ge49",
+    "createdAt": "2025-10-24T19:04:00.706Z"
+  },
+  {
+    "policyId": "POL-1761333513667-kt18rrh",
+    "recordDate": "2025-10-24T19:18:33.811075Z",
+    "mileage": 15230.5,
+    "speed": 65,
+    "hardBraking": 2,
+    "hardAcceleration": 1,
+    "nightDriving": 0.15,
+    "id": "TEL-1761333513815-lzxdpxy",
+    "createdAt": "2025-10-24T19:18:33.815Z"
+  }
+]

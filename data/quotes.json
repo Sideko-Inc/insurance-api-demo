@@ -1,0 +1,62 @@
+[
+  {
+    "policyType": "auto",
+    "coverageAmount": 50000,
+    "customerEmail": "john.doe@example.com",
+    "customerName": "John Doe",
+    "id": "QUO-1761331605348-39zia7f",
+    "createdAt": "2025-10-24T18:46:45.348Z",
+    "validUntil": "2025-11-23T18:46:45.348Z",
+    "status": "converted",
+    "premium": 1177.4467275043476,
+    "updatedAt": "2025-10-24T18:46:45.819Z"
+  },
+  {
+    "policyType": "auto",
+    "coverageAmount": 50000,
+    "customerEmail": "john.doe@example.com",
+    "customerName": "John Doe",
+    "id": "QUO-1761331774832-73gvcly",
+    "createdAt": "2025-10-24T18:49:34.832Z",
+    "validUntil": "2025-11-23T18:49:34.832Z",
+    "status": "converted",
+    "premium": 908.7182834249211,
+    "updatedAt": "2025-10-24T18:49:35.265Z"
+  },
+  {
+    "policyType": "auto",
+    "coverageAmount": 50000,
+    "customerEmail": "john.doe@example.com",
+    "customerName": "John Doe",
+    "id": "QUO-1761331958530-cgrj5wq",
+    "createdAt": "2025-10-24T18:52:38.530Z",
+    "validUntil": "2025-11-23T18:52:38.530Z",
+    "status": "converted",
+    "premium": 1047.9680926155022,
+    "updatedAt": "2025-10-24T18:52:38.558Z"
+  },
+  {
+    "policyType": "auto",
+    "coverageAmount": 50000,
+    "customerEmail": "john.doe@example.com",
+    "customerName": "John Doe",
+    "id": "QUO-1761332638857-btdh203",
+    "createdAt": "2025-10-24T19:03:58.857Z",
+    "validUntil": "2025-11-23T19:03:58.857Z",
+    "status": "converted",
+    "premium": 1331.8415414995302,
+    "updatedAt": "2025-10-24T19:03:59.287Z"
+  },
+  {
+    "policyType": "auto",
+    "coverageAmount": 50000,
+    "customerEmail": "john.doe@example.com",
+    "customerName": "John Doe",
+    "id": "QUO-1761333513622-cm1bz60",
+    "createdAt": "2025-10-24T19:18:33.622Z",
+    "validUntil": "2025-11-23T19:18:33.622Z",
+    "status": "converted",
+    "premium": 1140.9995005557375,
+    "updatedAt": "2025-10-24T19:18:33.654Z"
+  }
+]

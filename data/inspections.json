@@ -1,0 +1,67 @@
+[
+  {
+    "policyId": "POL-1761331606254-a3x1gzp",
+    "inspectionType": "vehicle",
+    "scheduledDate": "2025-10-31T18:46:48.343926Z",
+    "inspector": "Inspector Smith",
+    "id": "INS-1761331608396-h7gjqb9",
+    "createdAt": "2025-10-24T18:46:48.396Z",
+    "status": "completed",
+    "completedDate": "2025-10-24T18:46:48.821Z",
+    "findings": "Vehicle in good condition",
+    "approved": true,
+    "updatedAt": "2025-10-24T18:46:48.821Z"
+  },
+  {
+    "policyId": "POL-1761331775686-039o2zw",
+    "inspectionType": "vehicle",
+    "scheduledDate": "2025-10-31T18:49:37.615924Z",
+    "inspector": "Inspector Smith",
+    "id": "INS-1761331777672-jbie1b5",
+    "createdAt": "2025-10-24T18:49:37.672Z",
+    "status": "completed",
+    "completedDate": "2025-10-24T18:49:38.115Z",
+    "findings": "Vehicle in good condition",
+    "approved": true,
+    "updatedAt": "2025-10-24T18:49:38.115Z"
+  },
+  {
+    "policyId": "POL-1761331958574-uc1t303",
+    "inspectionType": "vehicle",
+    "scheduledDate": "2025-10-31T18:52:38.753031Z",
+    "inspector": "Inspector Smith",
+    "id": "INS-1761331958761-fk7asx5",
+    "createdAt": "2025-10-24T18:52:38.761Z",
+    "status": "completed",
+    "completedDate": "2025-10-24T18:52:38.785Z",
+    "findings": "Vehicle in good condition",
+    "approved": true,
+    "updatedAt": "2025-10-24T18:52:38.785Z"
+  },
+  {
+    "policyId": "POL-1761332639720-maj1t5w",
+    "inspectionType": "vehicle",
+    "scheduledDate": "2025-10-31T19:04:01.134046Z",
+    "inspector": "Inspector Smith",
+    "id": "INS-1761332641137-0pn906k",
+    "createdAt": "2025-10-24T19:04:01.137Z",
+    "status": "completed",
+    "completedDate": "2025-10-24T19:04:01.572Z",
+    "findings": "Vehicle in good condition",
+    "approved": true,
+    "updatedAt": "2025-10-24T19:04:01.572Z"
+  },
+  {
+    "policyId": "POL-1761333513667-kt18rrh",
+    "inspectionType": "vehicle",
+    "scheduledDate": "2025-10-31T19:18:33.828026Z",
+    "inspector": "Inspector Smith",
+    "id": "INS-1761333513832-48lomtf",
+    "createdAt": "2025-10-24T19:18:33.832Z",
+    "status": "completed",
+    "completedDate": "2025-10-24T19:18:33.838Z",
+    "findings": "Vehicle in good condition",
+    "approved": true,
+    "updatedAt": "2025-10-24T19:18:33.838Z"
+  }
+]

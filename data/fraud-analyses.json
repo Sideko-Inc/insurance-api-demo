@@ -1,0 +1,45 @@
+[
+  {
+    "id": "FRD-1761331607551-lveddll",
+    "claimId": "CLM-1761331607497-12dmvn3",
+    "riskScore": 50,
+    "fraudIndicators": [
+      "High claim amount",
+      "Incomplete documentation"
+    ],
+    "recommendation": "review",
+    "analyzedAt": "2025-10-24T18:46:47.551Z"
+  },
+  {
+    "id": "FRD-1761331776858-5l6zcp0",
+    "claimId": "CLM-1761331772485-y4cjrlw",
+    "riskScore": 0,
+    "fraudIndicators": [],
+    "recommendation": "approve",
+    "analyzedAt": "2025-10-24T18:49:36.858Z"
+  },
+  {
+    "id": "FRD-1761331958691-6kmegfj",
+    "claimId": "CLM-1761331958302-rwcmw9u",
+    "riskScore": 0,
+    "fraudIndicators": [],
+    "recommendation": "approve",
+    "analyzedAt": "2025-10-24T18:52:38.691Z"
+  },
+  {
+    "id": "FRD-1761332640676-607jxnf",
+    "claimId": "CLM-1761332637131-l9b1oqq",
+    "riskScore": 0,
+    "fraudIndicators": [],
+    "recommendation": "approve",
+    "analyzedAt": "2025-10-24T19:04:00.676Z"
+  },
+  {
+    "id": "FRD-1761333513769-ge21clj",
+    "claimId": "CLM-1761333513508-0om3eae",
+    "riskScore": 0,
+    "fraudIndicators": [],
+    "recommendation": "approve",
+    "analyzedAt": "2025-10-24T19:18:33.769Z"
+  }
+]

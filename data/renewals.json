@@ -1,0 +1,52 @@
+[
+  {
+    "policyId": "POL-1761331606254-a3x1gzp",
+    "renewalDate": "2026-10-24T18:46:46.944070Z",
+    "newPremium": 1300,
+    "newCoverageAmount": 55000,
+    "id": "REN-1761331606992-wh87v0g",
+    "createdAt": "2025-10-24T18:46:46.992Z",
+    "status": "approved",
+    "updatedAt": "2025-10-24T18:46:47.442Z"
+  },
+  {
+    "policyId": "POL-1761331775686-039o2zw",
+    "renewalDate": "2026-10-24T18:49:36.337300Z",
+    "newPremium": 1300,
+    "newCoverageAmount": 55000,
+    "id": "REN-1761331776384-nlup7rm",
+    "createdAt": "2025-10-24T18:49:36.384Z",
+    "status": "approved",
+    "updatedAt": "2025-10-24T18:49:36.806Z"
+  },
+  {
+    "policyId": "POL-1761331958574-uc1t303",
+    "renewalDate": "2026-10-24T18:52:38.657733Z",
+    "newPremium": 1300,
+    "newCoverageAmount": 55000,
+    "id": "REN-1761331958665-dawt49m",
+    "createdAt": "2025-10-24T18:52:38.665Z",
+    "status": "approved",
+    "updatedAt": "2025-10-24T18:52:38.679Z"
+  },
+  {
+    "policyId": "POL-1761332639720-maj1t5w",
+    "renewalDate": "2026-10-24T19:04:00.154279Z",
+    "newPremium": 1300,
+    "newCoverageAmount": 55000,
+    "id": "REN-1761332640156-3i989o9",
+    "createdAt": "2025-10-24T19:04:00.156Z",
+    "status": "approved",
+    "updatedAt": "2025-10-24T19:04:00.613Z"
+  },
+  {
+    "policyId": "POL-1761333513667-kt18rrh",
+    "renewalDate": "2026-10-24T19:18:33.741314Z",
+    "newPremium": 1300,
+    "newCoverageAmount": 55000,
+    "id": "REN-1761333513750-ocpt952",
+    "createdAt": "2025-10-24T19:18:33.750Z",
+    "status": "approved",
+    "updatedAt": "2025-10-24T19:18:33.761Z"
+  }
+]
