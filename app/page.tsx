@@ -77,14 +77,19 @@ export default function HomePage() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <BrainCircuit className="h-5 w-5" />
-                MCP
+                MCP Server
               </CardTitle>
-              <CardDescription>Traditional MCP Server (1 tool per http operation)</CardDescription>
+              <CardDescription>Model Context Protocol server with 106 tools</CardDescription>
             </CardHeader>
             <CardContent>
-              <code className="block bg-muted p-3 rounded-md text-sm font-mono break-all">
-                {baseUrl}/mcp
-              </code>
+              <a
+                href="/mcp"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block bg-muted p-3 rounded-md text-sm font-mono break-all hover:underline"
+              >
+                GET /mcp
+              </a>
             </CardContent>
           </Card>
         </div>
@@ -746,7 +751,11 @@ export default function HomePage() {
           </CardHeader>
           <CardContent className="space-y-4">
             <div>
-              <p className="text-sm font-medium mb-2">List all policies:</p>
+              <div className="flex items-center justify-between mb-2">
+                <p className="text-sm font-medium">List all policies:</p>
+                <CopyButton text={`curl -X GET ${baseUrl}/api/policies \\
+  -H "x-api-key: demo-key-12345"`} />
+              </div>
               <code className="block bg-muted p-4 rounded-md text-xs font-mono overflow-x-auto">
                 curl -X GET {baseUrl}/api/policies \{"\n"}
                 {"  "}-H "x-api-key: demo-key-12345"
@@ -754,7 +763,21 @@ export default function HomePage() {
             </div>
 
             <div>
-              <p className="text-sm font-medium mb-2">Create a new claim:</p>
+              <div className="flex items-center justify-between mb-2">
+                <p className="text-sm font-medium">Create a new claim:</p>
+                <CopyButton text={`curl -X POST ${baseUrl}/api/claims \\
+  -H "x-api-key: demo-key-12345" \\
+  -H "Content-Type: application/json" \\
+  -d '{
+    "policyId": "POL-001",
+    "claimNumber": "CLM-2024-999999",
+    "claimType": "accident",
+    "description": "Minor fender bender",
+    "claimAmount": 2500,
+    "status": "pending",
+    "filedDate": "2024-10-22T10:00:00Z"
+  }'`} />
+              </div>
               <code className="block bg-muted p-4 rounded-md text-xs font-mono overflow-x-auto">
                 curl -X POST {baseUrl}/api/claims \{"\n"}
                 {"  "}-H "x-api-key: demo-key-12345" \{"\n"}
@@ -774,7 +797,11 @@ export default function HomePage() {
             </div>
 
             <div>
-              <p className="text-sm font-medium mb-2">Get risk assessment for a policy:</p>
+              <div className="flex items-center justify-between mb-2">
+                <p className="text-sm font-medium">Get risk assessment for a policy:</p>
+                <CopyButton text={`curl -X GET ${baseUrl}/api/risk-assessment/POL-001 \\
+  -H "x-api-key: demo-key-12345"`} />
+              </div>
               <code className="block bg-muted p-4 rounded-md text-xs font-mono overflow-x-auto">
                 curl -X GET {baseUrl}/api/risk-assessment/POL-001 \{"\n"}
                 {"  "}-H "x-api-key: demo-key-12345"

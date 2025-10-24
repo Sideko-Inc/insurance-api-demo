@@ -1550,4 +1550,237 @@ const handler = createMcpHandler(
   }
 );
 
-export { handler as GET, handler as POST, handler as DELETE };
+// Custom GET handler to list all available tools
+export async function GET() {
+  const toolCategories = [
+    {
+      name: "Policies",
+      description: "Manage insurance policies",
+      tools: [
+        { name: "listPolicies", description: "List all insurance policies in the system" },
+        { name: "getPolicyById", description: "Get a specific insurance policy by ID" },
+        { name: "createPolicy", description: "Create a new insurance policy" },
+        { name: "updatePolicy", description: "Update an existing insurance policy" },
+        { name: "deletePolicy", description: "Delete an insurance policy" },
+      ]
+    },
+    {
+      name: "Claims",
+      description: "Process insurance claims",
+      tools: [
+        { name: "listClaims", description: "List all insurance claims in the system" },
+        { name: "getClaimById", description: "Get a specific insurance claim by ID" },
+        { name: "createClaim", description: "Create a new insurance claim" },
+        { name: "updateClaim", description: "Update an existing insurance claim" },
+        { name: "deleteClaim", description: "Delete an insurance claim" },
+        { name: "approveClaim", description: "Approve a pending insurance claim" },
+        { name: "rejectClaim", description: "Reject a pending insurance claim" },
+      ]
+    },
+    {
+      name: "Risk Assessment",
+      description: "Evaluate policy risks",
+      tools: [
+        { name: "createRiskAssessment", description: "Create a new risk assessment for a policy" },
+        { name: "getRiskAssessmentByPolicyId", description: "Get risk assessment for a specific policy" },
+      ]
+    },
+    {
+      name: "Customers",
+      description: "Customer management",
+      tools: [
+        { name: "listCustomers", description: "List all customers in the system" },
+        { name: "getCustomerById", description: "Get a specific customer by ID" },
+        { name: "createCustomer", description: "Create a new customer" },
+        { name: "updateCustomer", description: "Update an existing customer" },
+      ]
+    },
+    {
+      name: "Quotes",
+      description: "Insurance quotes",
+      tools: [
+        { name: "listQuotes", description: "List all insurance quotes" },
+        { name: "getQuoteById", description: "Get a specific quote by ID" },
+        { name: "createQuote", description: "Create a new insurance quote" },
+        { name: "updateQuote", description: "Update an existing quote" },
+        { name: "convertQuoteToPolicy", description: "Convert an approved quote to a policy" },
+      ]
+    },
+    {
+      name: "Payments",
+      description: "Payment processing",
+      tools: [
+        { name: "listPayments", description: "List all payments" },
+        { name: "getPaymentById", description: "Get a specific payment by ID" },
+        { name: "createPayment", description: "Create a new payment" },
+        { name: "getPaymentsByPolicy", description: "Get all payments for a specific policy" },
+      ]
+    },
+    {
+      name: "Agents",
+      description: "Insurance agents",
+      tools: [
+        { name: "listAgents", description: "List all insurance agents" },
+        { name: "getAgentById", description: "Get a specific agent by ID" },
+        { name: "createAgent", description: "Create a new insurance agent" },
+        { name: "updateAgent", description: "Update an existing agent" },
+      ]
+    },
+    {
+      name: "Beneficiaries",
+      description: "Policy beneficiaries",
+      tools: [
+        { name: "listBeneficiaries", description: "List all beneficiaries" },
+        { name: "getBeneficiaryById", description: "Get a specific beneficiary by ID" },
+        { name: "createBeneficiary", description: "Create a new beneficiary for a policy" },
+        { name: "getBeneficiariesByPolicy", description: "Get all beneficiaries for a specific policy" },
+      ]
+    },
+    {
+      name: "Documents",
+      description: "Document management",
+      tools: [
+        { name: "listDocuments", description: "List all documents" },
+        { name: "getDocumentById", description: "Get a specific document by ID" },
+        { name: "createDocument", description: "Upload a new document" },
+        { name: "getDocumentsByEntity", description: "Get all documents for a specific entity" },
+      ]
+    },
+    {
+      name: "Renewals",
+      description: "Policy renewals",
+      tools: [
+        { name: "listRenewals", description: "List all policy renewals" },
+        { name: "getRenewalById", description: "Get a specific renewal by ID" },
+        { name: "createRenewal", description: "Create a new policy renewal" },
+        { name: "approveRenewal", description: "Approve a policy renewal" },
+      ]
+    },
+    {
+      name: "Endorsements",
+      description: "Policy modifications",
+      tools: [
+        { name: "listEndorsements", description: "List all policy endorsements" },
+        { name: "getEndorsementById", description: "Get a specific endorsement by ID" },
+        { name: "createEndorsement", description: "Create a new policy endorsement" },
+        { name: "updateEndorsement", description: "Update an existing endorsement" },
+        { name: "approveEndorsement", description: "Approve a policy endorsement" },
+      ]
+    },
+    {
+      name: "Reinsurance",
+      description: "Reinsurance contracts",
+      tools: [
+        { name: "listReinsurance", description: "List all reinsurance contracts" },
+        { name: "getReinsuranceById", description: "Get a specific reinsurance contract by ID" },
+        { name: "createReinsurance", description: "Create a new reinsurance contract" },
+        { name: "updateReinsurance", description: "Update an existing reinsurance contract" },
+      ]
+    },
+    {
+      name: "Fraud Detection",
+      description: "Fraud analysis",
+      tools: [
+        { name: "analyzeFraud", description: "Analyze a claim for potential fraud" },
+        { name: "getFraudReports", description: "Get all fraud detection reports" },
+        { name: "getFraudReportById", description: "Get a specific fraud report by ID" },
+      ]
+    },
+    {
+      name: "Analytics",
+      description: "Business analytics",
+      tools: [
+        { name: "getClaimsSummary", description: "Get summary statistics for all claims" },
+        { name: "getPoliciesSummary", description: "Get summary statistics for all policies" },
+        { name: "getLossRatio", description: "Get loss ratio analytics" },
+      ]
+    },
+    {
+      name: "Audit Trail",
+      description: "Activity logs",
+      tools: [
+        { name: "getAuditLogs", description: "Get all audit logs" },
+        { name: "getAuditLogById", description: "Get a specific audit log by ID" },
+        { name: "getAuditLogsByEntity", description: "Get audit logs for a specific entity" },
+      ]
+    },
+    {
+      name: "Notifications",
+      description: "Send notifications",
+      tools: [
+        { name: "listNotifications", description: "List all notifications" },
+        { name: "getNotificationById", description: "Get a specific notification by ID" },
+        { name: "sendNotification", description: "Send a new notification" },
+      ]
+    },
+    {
+      name: "Telematics",
+      description: "Vehicle tracking data",
+      tools: [
+        { name: "listTelematicsData", description: "List all telematics data" },
+        { name: "createTelematicsData", description: "Upload new telematics data" },
+        { name: "getTelematicsByPolicy", description: "Get telematics data for a specific policy" },
+      ]
+    },
+    {
+      name: "Inspections",
+      description: "Property inspections",
+      tools: [
+        { name: "listInspections", description: "List all inspections" },
+        { name: "getInspectionById", description: "Get a specific inspection by ID" },
+        { name: "scheduleInspection", description: "Schedule a new inspection" },
+        { name: "completeInspection", description: "Mark an inspection as completed" },
+      ]
+    },
+    {
+      name: "Subrogation",
+      description: "Recovery claims",
+      tools: [
+        { name: "listSubrogation", description: "List all subrogation cases" },
+        { name: "getSubrogationById", description: "Get a specific subrogation case by ID" },
+        { name: "createSubrogation", description: "Create a new subrogation case" },
+        { name: "getSubrogationByClaim", description: "Get subrogation case for a specific claim" },
+      ]
+    },
+  ];
+
+  const allTools = toolCategories.flatMap(cat => cat.tools);
+
+  // Convert tools to MCP format with input schemas
+  const toolsObject: Record<string, any> = {};
+
+  allTools.forEach(tool => {
+    toolsObject[tool.name] = {
+      name: tool.name,
+      description: tool.description,
+      method: "POST",
+      pathTemplate: "/mcp",
+      parameters: [],
+      inputSchema: {
+        type: "object",
+        properties: {},
+        required: []
+      },
+      executionParameters: [],
+      securityRequirements: [],
+      operationId: tool.name
+    };
+  });
+
+  return Response.json({
+    server: {
+      name: "Insurance API MCP Server",
+      version: "1.0.0",
+      transport: "http"
+    },
+    capabilities: {
+      tools: toolsObject,
+      resources: [],
+      prompts: []
+    },
+    toolCategories: toolCategories,
+    toolCount: allTools.length
+  });
+}
+
+export { handler as POST, handler as DELETE };
