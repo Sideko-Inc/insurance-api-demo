@@ -1,6 +1,33 @@
+"use client"
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Shield, FileText, BrainCircuit, BarChart3, Users, MessageSquare, DollarSign, UserCheck, FileCheck, CalendarClock, AlertTriangle, TrendingUp, History, Bell, Car, ClipboardCheck, Scale, Building } from "lucide-react"
+import { Shield, FileText, BrainCircuit, BarChart3, Users, MessageSquare, DollarSign, UserCheck, FileCheck, CalendarClock, AlertTriangle, TrendingUp, History, Bell, Car, ClipboardCheck, Scale, Building, Copy, Check } from "lucide-react"
+import { useState } from "react"
+
+function CopyButton({ text }: { text: string }) {
+  const [copied, setCopied] = useState(false)
+
+  const handleCopy = async () => {
+    await navigator.clipboard.writeText(text)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }
+
+  return (
+    <button
+      onClick={handleCopy}
+      className="p-1.5 hover:bg-muted rounded transition-colors shrink-0"
+      title="Copy to clipboard"
+    >
+      {copied ? (
+        <Check className="h-3.5 w-3.5 text-green-500" />
+      ) : (
+        <Copy className="h-3.5 w-3.5" />
+      )}
+    </button>
+  )
+}
 
 export default function HomePage() {
 
@@ -13,10 +40,10 @@ export default function HomePage() {
         <div className="text-center mb-16">
           <div className="flex items-center justify-center gap-3 mb-4">
             <Shield className="h-12 w-12 text-primary" />
-            <h1 className="text-5xl font-bold text-balance">Insurance API</h1>
+            <h1 className="text-5xl font-bold text-balance">Mock Insurance API</h1>
           </div>
           <p className="text-xl text-muted-foreground text-balance max-w-2xl mx-auto">
-            A simple insurance management API for policy, claims, and risk assessment operations
+            Live Insurance Management API
           </p>
           <div className="flex items-center justify-center gap-2 mt-6">
             <Badge variant="secondary">OpenAPI 3.1</Badge>
@@ -52,15 +79,115 @@ export default function HomePage() {
                 <BrainCircuit className="h-5 w-5" />
                 MCP
               </CardTitle>
-              <CardDescription>MCP Server (1 tool per http operation)</CardDescription>
+              <CardDescription>Traditional MCP Server (1 tool per http operation)</CardDescription>
             </CardHeader>
             <CardContent>
               <code className="block bg-muted p-3 rounded-md text-sm font-mono break-all">
-                {baseUrl}/api/policies
+                {baseUrl}/mcp
               </code>
             </CardContent>
           </Card>
         </div>
+
+        {/* Example Prompts */}
+        <Card className="mb-12">
+          <CardHeader className="pb-3">
+            <CardTitle className="flex items-center gap-2 text-lg">
+              <MessageSquare className="h-4 w-4" />
+              Example Prompts for LLMs
+            </CardTitle>
+            <CardDescription className="text-xs">
+              Copy and paste these realistic insurance workflow prompts to test the MCP server
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-2 gap-2">
+              {/* New Business */}
+              <div className="bg-muted/50 p-1.5 rounded flex items-center gap-1.5 group">
+                <Shield className="h-3 w-3 text-blue-500 shrink-0" />
+                <div className="truncate flex-1 text-xs">Onboard Sarah Johnson, 35, auto quote for 2022 Civic...</div>
+                <CopyButton text="I need to onboard a new customer named Sarah Johnson, age 35, and create an auto insurance quote for her 2022 Honda Civic. Then assess the risk and convert it to a policy if the risk is acceptable." />
+              </div>
+              <div className="bg-muted/50 p-1.5 rounded flex items-center gap-1.5 group">
+                <Shield className="h-3 w-3 text-blue-500 shrink-0" />
+                <div className="truncate flex-1 text-xs">Life policy: 45yo male, $500K, spouse beneficiary...</div>
+                <CopyButton text="Create a comprehensive life insurance policy for a 45-year-old male customer with $500,000 coverage, add his spouse as the primary beneficiary, and set up monthly premium payments." />
+              </div>
+
+              {/* Claims */}
+              <div className="bg-muted/50 p-1.5 rounded flex items-center gap-1.5 group">
+                <FileText className="h-3 w-3 text-green-500 shrink-0" />
+                <div className="truncate flex-1 text-xs">Create CLM-2024-001234, fraud check, approve if safe...</div>
+                <CopyButton text="A customer filed a claim for a car accident. Create claim CLM-2024-001234 for policy POL-12345, run fraud detection analysis on it, and approve it if the fraud score is low." />
+              </div>
+              <div className="bg-muted/50 p-1.5 rounded flex items-center gap-1.5 group">
+                <FileText className="h-3 w-3 text-green-500 shrink-0" />
+                <div className="truncate flex-1 text-xs">Water damage: create claim, schedule inspection...</div>
+                <CopyButton text="Customer John Doe reported water damage to his home. Create the claim, schedule an inspection, upload the inspection photos as documents, and calculate the payout amount based on the policy coverage." />
+              </div>
+
+              {/* Policy Lifecycle */}
+              <div className="bg-muted/50 p-1.5 rounded flex items-center gap-1.5 group">
+                <CalendarClock className="h-3 w-3 text-amber-500 shrink-0" />
+                <div className="truncate flex-1 text-xs">Policies expiring in 30 days, create renewals...</div>
+                <CopyButton text="Show me all policies expiring in the next 30 days, create renewal quotes for each, and send notification emails to those customers." />
+              </div>
+              <div className="bg-muted/50 p-1.5 rounded flex items-center gap-1.5 group">
+                <CalendarClock className="h-3 w-3 text-amber-500 shrink-0" />
+                <div className="truncate flex-1 text-xs">Add collision to POL-45678, create endorsement...</div>
+                <CopyButton text="A customer wants to add collision coverage to their existing auto policy POL-45678. Create an endorsement for the coverage change, recalculate the premium, and update the policy." />
+              </div>
+
+              {/* Analytics */}
+              <div className="bg-muted/50 p-1.5 rounded flex items-center gap-1.5 group">
+                <TrendingUp className="h-3 w-3 text-emerald-500 shrink-0" />
+                <div className="truncate flex-1 text-xs">Business report: loss ratio, top 5 policy types...</div>
+                <CopyButton text="Generate a comprehensive business report: show the loss ratio for this quarter, list the top 5 most profitable policy types, identify agents with the highest conversion rates, and flag any concerning fraud trends." />
+              </div>
+              <div className="bg-muted/50 p-1.5 rounded flex items-center gap-1.5 group">
+                <TrendingUp className="h-3 w-3 text-emerald-500 shrink-0" />
+                <div className="truncate flex-1 text-xs">Auto portfolio analysis: risk scores, telematics...</div>
+                <CopyButton text="Analyze our auto insurance portfolio - show me the average risk score, claims frequency by vehicle type, and identify if we should adjust our underwriting criteria based on telematics data." />
+              </div>
+
+              {/* Complex Scenarios */}
+              <div className="bg-muted/50 p-1.5 rounded flex items-center gap-1.5 group">
+                <AlertTriangle className="h-3 w-3 text-red-500 shrink-0" />
+                <div className="truncate flex-1 text-xs">Hurricane in 33139: create claims, inspections...</div>
+                <CopyButton text="Hurricane scenario: A major storm just hit - identify all homeowners policies in zip code 33139, create claims for customers who called in damage reports, prioritize inspections by claim amount, and prepare reinsurance reports for our catastrophe coverage." />
+              </div>
+              <div className="bg-muted/50 p-1.5 rounded flex items-center gap-1.5 group">
+                <AlertTriangle className="h-3 w-3 text-red-500 shrink-0" />
+                <div className="truncate flex-1 text-xs">Investigate CLM-2024-005678: fraud, telematics...</div>
+                <CopyButton text="Investigate claim CLM-2024-005678 - pull the claim details, check the customer's claim history, run fraud detection, review any related telematics data if it's an auto claim, and prepare a summary for the adjuster." />
+              </div>
+
+              {/* Financial */}
+              <div className="bg-muted/50 p-1.5 rounded flex items-center gap-1.5 group">
+                <DollarSign className="h-3 w-3 text-green-600 shrink-0" />
+                <div className="truncate flex-1 text-xs">Overdue payments report, send reminders...</div>
+                <CopyButton text="Generate a report of all overdue payments for active policies, send reminder notifications to those customers, and flag policies that are 60+ days overdue for potential cancellation." />
+              </div>
+              <div className="bg-muted/50 p-1.5 rounded flex items-center gap-1.5 group">
+                <DollarSign className="h-3 w-3 text-green-600 shrink-0" />
+                <div className="truncate flex-1 text-xs">Subrogation for CLM-2024-007890, recover costs...</div>
+                <CopyButton text="A third-party is at fault for our customer's claim CLM-2024-007890. Approve the claim to pay our customer, then create a subrogation case to recover the costs from the at-fault party's insurer." />
+              </div>
+
+              {/* Compliance */}
+              <div className="bg-muted/50 p-1.5 rounded flex items-center gap-1.5 group">
+                <History className="h-3 w-3 text-slate-500 shrink-0" />
+                <div className="truncate flex-1 text-xs">Audit claims over $50K, verify docs...</div>
+                <CopyButton text="A regulator requested an audit of all claim approvals over $50,000 in the last 6 months. Pull the audit trail for those claims, verify each had proper documentation attached, and generate a compliance report." />
+              </div>
+              <div className="bg-muted/50 p-1.5 rounded flex items-center gap-1.5 group">
+                <History className="h-3 w-3 text-slate-500 shrink-0" />
+                <div className="truncate flex-1 text-xs">Annual review for CUST-67890, all policies...</div>
+                <CopyButton text="Annual policy review workflow: For customer CUST-67890, pull all their active policies, review claim history, check current risk assessments, generate updated quotes with adjusted premiums, and prepare a comprehensive portfolio review document." />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
 
         {/* API Endpoints */}
         <div className="mb-12">
